@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "vunguyentuan.vscode-css-variables",
+        "vunguyentuan.vscode-postcss",
+        "vivaxy.vscode-conventional-commits",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "christian-kohler.path-intellisense",
+        "christian-kohler.npm-intellisense"
+    ]
+}
