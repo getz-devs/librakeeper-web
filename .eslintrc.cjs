@@ -11,6 +11,8 @@ module.exports = {
         project: './tsconfig.json',
     },
     rules: {
+        // 'no-multispaces': 'off',
+        // 'no-trailing-spaces': 'on',
         'react/jsx-indent-props': 'off',
         'linebreak-style': 0,
         'react/react-in-jsx-scope': 'off',
