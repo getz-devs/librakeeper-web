@@ -12,7 +12,7 @@ export function Welcome() {
                     component="span"
                     gradient={{ from: 'pink', to: 'yellow' }}
                 >
-                    Mantine
+                    LibraKeeper
                 </Text>
             </Title>
             <Text c="dimmed" ta="center" size="lg" maw={580} mx="auto" mt="xl">
