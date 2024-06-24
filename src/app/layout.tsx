@@ -3,13 +3,14 @@ import React from 'react';
 import { MantineProvider, ColorSchemeScript } from '@mantine/core';
 import { theme } from '@/src/app/theme';
 import { AuthContextProvider } from '@/src/firebase/context';
+import { AppFrame } from '@/src/components/AppFrame/AppFrame';
 
 export const metadata = {
     title: 'Mantine Next.js template',
     description: 'I am using Mantine with Next.js!',
 };
 
-export default function RootLayout({ children }: { children: any }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
             <head>
@@ -21,8 +22,10 @@ export default function RootLayout({ children }: { children: any }) {
                 />
             </head>
             <body>
-                <MantineProvider theme={theme}>
-                    <AuthContextProvider>{children}</AuthContextProvider>
+                <MantineProvider theme={theme} defaultColorScheme="dark">
+                    <AuthContextProvider>
+                        <AppFrame>{children}</AppFrame>
+                    </AuthContextProvider>
                 </MantineProvider>
             </body>
         </html>
