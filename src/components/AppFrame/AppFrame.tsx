@@ -79,7 +79,7 @@ export function AppFrame({ children }: AppFrameProps) {
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="md">
-                <Stack justify="center" gap={4}>
+                <Stack className={classes.navbarMain} align="center" justify="center" gap={3}>
                     {links}
                 </Stack>
                 <div>
