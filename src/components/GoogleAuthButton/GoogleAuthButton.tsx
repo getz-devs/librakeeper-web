@@ -19,7 +19,7 @@ function LoginButton() {
             loaderProps={{ type: 'dots' }}
             // rightSection={<IconChevronRight size="1rem" />}
         >
-            {user ? 'Out' : 'In'}
+            {user ? 'LogOut' : 'LogIn'}
         </Button>
     );
 }
