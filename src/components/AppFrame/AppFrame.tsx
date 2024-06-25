@@ -1,15 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-    AppShell,
-    Burger,
-    Group,
-    Tooltip,
-    UnstyledButton,
-    Stack,
-    rem,
-} from '@mantine/core';
+import { AppShell, Burger, Group, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 
 import {
@@ -90,7 +82,7 @@ export function AppFrame({ children }: AppFrameProps) {
                 <Stack justify="center" gap={4}>
                     {links}
                 </Stack>
-                <div className={classes.customLabel}>
+                <div>
                     <GoogleAuthButton></GoogleAuthButton>
                 </div>
             </AppShell.Navbar>
