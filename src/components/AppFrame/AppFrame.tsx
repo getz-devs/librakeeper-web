@@ -54,7 +54,7 @@ interface AppFrameProps {
 }
 
 export function AppFrame({ children }: AppFrameProps) {
-    const [active, setActive] = useState(2);
+    const [active, setActive] = useState(0);
     const [opened, { toggle }] = useDisclosure();
 
     const links = mockdata.map((link, index) => (
