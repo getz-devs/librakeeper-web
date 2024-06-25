@@ -1,34 +1,98 @@
 'use client';
 
-import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
+import { useState } from 'react';
+import {
+    AppShell,
+    Burger,
+    Group,
+    Tooltip,
+    UnstyledButton,
+    Stack,
+    rem,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+
+import {
+    IconHome2,
+    IconGauge,
+    IconDeviceDesktopAnalytics,
+    IconFingerprint,
+    IconCalendarStats,
+    IconUser,
+    IconSettings,
+    // IconLogout,
+    // IconSwitchHorizontal,
+} from '@tabler/icons-react';
+import classes from './AppFrame.module.css';
+import GoogleAuthButton from '@/src/components/GoogleAuthButton/GoogleAuthButton';
+
+interface NavbarLinkProps {
+    icon: typeof IconHome2;
+    label: string;
+    active?: boolean;
+    onClick?: () => void;
+}
+
+function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
+    return (
+        <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
+            <UnstyledButton
+                onClick={onClick}
+                className={classes.link}
+                data-active={active || undefined}
+            >
+                <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+            </UnstyledButton>
+        </Tooltip>
+    );
+}
+
+const mockdata = [
+    { icon: IconHome2, label: 'Home' },
+    { icon: IconGauge, label: 'Dashboard' },
+    { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
+    { icon: IconCalendarStats, label: 'Releases' },
+    { icon: IconUser, label: 'Account' },
+    { icon: IconFingerprint, label: 'Security' },
+    { icon: IconSettings, label: 'Settings' },
+];
 
 interface AppFrameProps {
     children: React.ReactNode;
 }
 
 export function AppFrame({ children }: AppFrameProps) {
+    const [active, setActive] = useState(2);
     const [opened, { toggle }] = useDisclosure();
+
+    const links = mockdata.map((link, index) => (
+        <NavbarLink
+            {...link}
+            key={link.label}
+            active={index === active}
+            onClick={() => setActive(index)}
+        />
+    ));
 
     return (
         <AppShell
             header={{ height: 60 }}
-            navbar={{ width: 160, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+            navbar={{ width: 90, breakpoint: 'sm', collapsed: { mobile: !opened } }}
             padding="md"
         >
             <AppShell.Header>
                 <Group h="100%" px="md">
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-                    <p>L</p>
+                    <div className={classes.customLabel}> L </div>
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="md">
-                Navbar
-                {Array(15)
-                    .fill(0)
-                    .map((_, index) => (
-                        <Skeleton key={index} h={28} mt="sm" animate={false} />
-                    ))}
+                <Stack justify="center" gap={4}>
+                    {links}
+                </Stack>
+                <div className={classes.customLabel}>
+                    <GoogleAuthButton></GoogleAuthButton>
+                </div>
             </AppShell.Navbar>
             <AppShell.Main>{children}</AppShell.Main>
         </AppShell>

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@mantine/core';
-import { IconChevronRight } from '@tabler/icons-react';
+// import { IconChevronRight } from '@tabler/icons-react';
 import { useAuthContext } from '@/src/firebase/context';
 
 function LoginButton() {
@@ -12,12 +12,12 @@ function LoginButton() {
             onClick={user ? signOut : signIn}
             variant="subtle"
             color="gray"
-            size="md"
+            // size="md"
             loading={loading}
             loaderProps={{ type: 'dots' }}
-            rightSection={<IconChevronRight size="1rem" />}
+            // rightSection={<IconChevronRight size="1rem" />}
         >
-            {user ? 'Sign out' : 'Sign in with Google'}
+            {user ? 'Out' : 'In'}
         </Button>
     );
 }

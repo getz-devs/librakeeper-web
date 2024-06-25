@@ -24,6 +24,17 @@
     margin-top: rem(50px);
 }
 
+.customLabel {
+    width: rem(50px);
+    height: rem(50px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: rgb(255, 64, 0);
+}
+
 .link {
     width: rem(50px);
     height: rem(50px);
