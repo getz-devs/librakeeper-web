@@ -298,7 +298,7 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
             >
                 <IconChevronLeft size={24} />
             </Button>
-            <ScrollArea viewportRef={viewport} style={{ width: '100%', whiteSpace: 'nowrap', overflowX: 'hidden' }}>
+            <ScrollArea viewportRef={viewport} style={{ width: '100%', whiteSpace: 'nowrap' }} type="never" scrollbars="x">
                 <div style={{ display: 'flex' }}>
                     {slides}
                     {loading && (
