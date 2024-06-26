@@ -1,8 +1,13 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { ScrollArea, Box, Text, Badge, Card, Group } from '@mantine/core';
 
+interface Item {
+    title: string;
+    text: string;
+}
+
 interface InfiniteScrollAreaProps {
-    items: string[]; // Adjust the type based on the actual item structure
+    items: Item[];
     fetchMoreData: () => Promise<void>;
     loader: ReactNode;
 }
@@ -44,13 +49,12 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
             {items.map((item, i) => (
                 <Card key={i} shadow="sm" padding="md" radius="md" mb="md" withBorder>
                     <Group justify="space-between" mb="xs">
-                        <Text fw={500}>{item}</Text>
+                        <Text fw={500}>{item.title}</Text>
                         <Badge color="pink">Test</Badge>
                     </Group>
 
                     <Text size="sm" c="dimmed">
-                        With Fjord Tours you can explore more of the magical fjord landscapes with
-                        tours and activities on and around the fjords of Norway
+                        {item.text}
                     </Text>
                 </Card>
             ))}

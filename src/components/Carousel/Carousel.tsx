@@ -4,9 +4,17 @@ import React, { useState } from 'react';
 import { Loader } from '@mantine/core';
 import InfiniteScrollArea from '../InfiniteList';
 
+interface Item {
+    title: string;
+    text: string;
+}
+
 const ExampleList: React.FC = () => {
-    const [items, setItems] = useState<string[]>(
-        Array.from({ length: 20 }, (_, i) => `Item ${i + 1}`)
+    const [items, setItems] = useState<Item[]>(
+        Array.from({ length: 20 }, (_, i) => ({
+            title: `Item ${i + 1}`,
+            text: `This is the text for item ${i + 1}`,
+        }))
     );
 
     const fetchMoreData = () =>
@@ -14,7 +22,10 @@ const ExampleList: React.FC = () => {
             setTimeout(() => {
                 setItems((prevItems) => [
                     ...prevItems,
-                    ...Array.from({ length: 20 }, (_, i) => `Item ${prevItems.length + i + 1}`),
+                    ...Array.from({ length: 20 }, (_, i) => ({
+                        title: `Item ${prevItems.length + i + 1}`,
+                        text: `This is the text for item ${prevItems.length + i + 1}`,
+                    })),
                 ]);
                 resolve();
             }, 1500);
@@ -28,5 +39,4 @@ const ExampleList: React.FC = () => {
         />
     );
 };
-
 export default ExampleList;
