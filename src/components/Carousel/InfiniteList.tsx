@@ -1,200 +1,17 @@
-// import { ReactNode, useEffect, useRef, useState } from 'react';
-// import { Carousel } from '@mantine/carousel';
-// import {
-//     ScrollArea,
-//     Box,
-//     Text,
-//     Badge,
-//     Group,
-//     Button,
-//     Paper,
-//     Title,
-//     useMantineTheme,
-// } from '@mantine/core';
-
-// import { useMediaQuery } from '@mantine/hooks';
-// import classes from './InfiniteList.module.css';
-
-// interface Item {
-//     image: string;
-//     title: string;
-//     text: string;
-// }
-
-// interface InfiniteScrollAreaProps {
-//     items: Item[];
-//     fetchMoreData: () => Promise<void>;
-//     loader: ReactNode;
-// }
-
-// function Card({ image, title, text }: Item) {
-//     return (
-//         <Paper
-//             shadow="md"
-//             p="xl"
-//             radius="md"
-//             style={{ backgroundImage: `url(${image})` }}
-//             className={classes.card}
-//         >
-//             <div>
-//                 <Text className={classes.category} size="xs">
-//                     {text}
-//                 </Text>
-//                 <Title order={3} className={classes.title}>
-//                     {title}
-//                 </Title>
-//             </div>
-//             <Button variant="white" color="dark">
-//                 Read
-//             </Button>
-//         </Paper>
-//     );
-// }
-
-// function InfiniteList(items: Item[]) {
-//     const theme = useMantineTheme();
-//     const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-//     const slides = items.map((item, i) => (
-//         <Carousel.Slide key={item.title}>
-//             <Card {...item} />
-//         </Carousel.Slide>
-//     ));
-
-//     return (
-//         <Carousel
-//             slideSize={{ base: '100%', sm: '50%' }}
-//             slideGap={{ base: 'xl', sm: 2 }}
-//             align="start"
-//             slidesToScroll={mobile ? 1 : 2}
-//         >
-//             {slides}
-//         </Carousel>
-//     );
-// }
-
-// const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
-//     items,
-//     fetchMoreData,
-//     loader,
-// }) => {
-//     const [loading, setLoading] = useState(false);
-//     const viewport = useRef<HTMLDivElement>(null);
-
-//     // const handleScroll = () => {
-//     //     if (viewport.current) {
-//     //         const { scrollTop, scrollHeight, clientHeight } = viewport.current;
-//     //         if (scrollTop + clientHeight >= scrollHeight - 20) {
-//     //             if (!loading) {
-//     //                 setLoading(true);
-//     //                 fetchMoreData().finally(() => setLoading(false));
-//     //             }
-//     //         }
-//     //     }
-//     // };
-
-//     const handleScroll = () => {
-//         if (viewport.current) {
-//             const { scrollLeft, scrollWidth, clientWidth } = viewport.current;
-//             if (scrollLeft + clientWidth >= scrollWidth - 20) {
-//                 if (!loading) {
-//                     setLoading(true);
-//                     fetchMoreData().finally(() => setLoading(false));
-//                 }
-//             }
-//         }
-//     };
-
-//     useEffect(() => {
-//         const currentViewport = viewport.current;
-//         if (currentViewport) {
-//             currentViewport.addEventListener('scroll', handleScroll);
-//         }
-//         return () => {
-//             if (currentViewport) {
-//                 currentViewport.removeEventListener('scroll', handleScroll);
-//             }
-//         };
-//     }, [loading]);
-
-//     const theme = useMantineTheme();
-//     const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
-//     const slides = items.map((item, i) => (
-//         <Carousel.Slide key={item.title}>
-//             <Card {...item} />
-//         </Carousel.Slide>
-//     ));
-
-//     return (
-//         <Carousel
-//             slideSize={{ base: '100%', sm: '50%' }}
-//             slideGap={{ base: 'xl', sm: 2 }}
-//             align="start"
-//             slidesToScroll={mobile ? 1 : 2}
-//         >
-//             {slides}
-//             {loading && (
-//                 <Box style={{ display: 'flex', justifyContent: 'center', padding: '4px' }}>
-//                     {loader}
-//                 </Box>
-//             )}
-//         </Carousel>
-//     );
-
-//     // return (
-//     //     <ScrollArea style={{ height: '200px', whiteSpace: 'nowrap' }} viewportRef={viewport}>
-//     //         {items.map((item, i) => (
-//     //             <Card
-//     //                 key={i}
-//     //                 shadow="sm"
-//     //                 padding="md"
-//     //                 radius="md"
-//     //                 mb="md"
-//     //                 style={{
-//     //                     display: 'inline-block',
-//     //                     marginRight: '16px',
-//     //                     width: '300px',
-//     //                     whiteSpace: 'normal',
-//     //                 }}
-//     //                 withBorder
-//     //             >
-//     //                 <Group justify="space-between" mb="xs">
-//     //                     <Text fw={500}>{item.title}</Text>
-//     //                     <Badge color="pink">Test</Badge>
-//     //                 </Group>
-
-//     //                 <Text size="sm" c="dimmed">
-//     //                     {item.text}
-//     //                 </Text>
-//     //             </Card>
-//     //         ))}
-//     //         {loading && (
-//     //             <Box style={{ display: 'flex', justifyContent: 'center', padding: '4px' }}>
-//     //                 {loader}
-//     //             </Box>
-//     //         )}
-//     //     </ScrollArea>
-//     // );
-// };
-
-// // export default InfiniteList;
-// export default InfiniteScrollArea;
-
 import { ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
-import { Carousel } from '@mantine/carousel';
+// import { Carousel } from '@mantine/carousel';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import {
     ScrollArea,
     Box,
     Text,
-    Badge,
-    Group,
     Button,
     Paper,
     Title,
-    useMantineTheme,
+    // useMantineTheme,
 } from '@mantine/core';
 
-import { useMediaQuery } from '@mantine/hooks';
+// import { useMediaQuery } from '@mantine/hooks';
 import classes from './InfiniteList.module.css';
 
 interface Item {
@@ -249,6 +66,8 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
             setIsDragging(true);
             setStartPosition(e.clientX);
             setScrollLeft(viewport.current.scrollLeft);
+            document.body.style.userSelect = 'none';
+            document.body.style.cursor = 'grabbing';
         }
     };
 
@@ -262,6 +81,8 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
 
     const handleMouseUp = () => {
         setIsDragging(false);
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
     };
 
     const handleScroll = () => {
@@ -290,18 +111,18 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
 
     const scrollToLeft = () => {
         if (viewport.current) {
-            viewport.current.scrollBy({ left: -400, behavior: 'smooth' });
+            viewport.current.scrollBy({ left: -504, behavior: 'smooth' });
         }
     };
 
     const scrollToRight = () => {
         if (viewport.current) {
-            viewport.current.scrollBy({ left: 400, behavior: 'smooth' });
+            viewport.current.scrollBy({ left: 504, behavior: 'smooth' });
         }
     };
 
-    const theme = useMantineTheme();
-    const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
+    // const theme = useMantineTheme();
+    // const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
     const slides = items.map((item) => (
         <Box key={item.title} className={classes.slide} style={{ margin: '0 10px' }}>
             <Card {...item} />
@@ -319,7 +140,7 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
                 onClick={scrollToLeft}
                 style={{
                     position: 'absolute',
-                    left: 0,
+                    left: 20,
                     top: '50%',
                     transform: 'translateY(-50%)',
                     zIndex: 1,
@@ -340,7 +161,7 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
                 <div style={{ display: 'flex' }}>
                     {slides}
                     {loading && (
-                        <Box style={{ display: 'flex', justifyContent: 'center', padding: '4px' }}>
+                        <Box style={{ display: 'flex', justifyContent: 'center', align: 'center', padding: '4px' }}>
                             {loader}
                         </Box>
                     )}
@@ -352,7 +173,7 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
                 onClick={scrollToRight}
                 style={{
                     position: 'absolute',
-                    right: 0,
+                    right: 20,
                     top: '50%',
                     transform: 'translateY(-50%)',
                     zIndex: 1,
