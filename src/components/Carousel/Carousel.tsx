@@ -39,7 +39,7 @@ const ExampleList: React.FC = () => {
         <InfiniteScrollArea
             items={items}
             fetchMoreData={fetchMoreData}
-            loader={<Loader size="sm" />}
+            loader={<Loader size="md" />}
         />
     );
 };

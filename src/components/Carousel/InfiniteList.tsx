@@ -160,11 +160,14 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
             >
                 <div style={{ display: 'flex' }}>
                     {slides}
-                    {loading && (
+                    {/* {loading && (
                         <Box style={{ display: 'flex', justifyContent: 'center', align: 'center', padding: '4px' }}>
                             {loader}
                         </Box>
-                    )}
+                    )} */}
+                    <Box style={{ display: 'flex', justifyContent: 'center', align: 'center', padding: '4px' }}>
+                        {loader}
+                    </Box>
                 </div>
             </ScrollArea>
             <Button
