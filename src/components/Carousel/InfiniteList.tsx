@@ -179,7 +179,7 @@
 // // export default InfiniteList;
 // export default InfiniteScrollArea;
 
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
 import { Carousel } from '@mantine/carousel';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import {
@@ -240,6 +240,29 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
 }) => {
     const [loading, setLoading] = useState(false);
     const viewport = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startPosition, setStartPosition] = useState(0);
+    const [scrollingLeft, setScrollLeft] = useState(0);
+
+    const handleMouseDown = (e: { clientX: SetStateAction<number>; }) => {
+        if (viewport.current) {
+            setIsDragging(true);
+            setStartPosition(e.clientX);
+            setScrollLeft(viewport.current.scrollLeft);
+        }
+    };
+
+    const handleMouseMove = (e: { clientX: number; }) => {
+        if (viewport.current) {
+            if (!isDragging) return;
+            const walk = (e.clientX - startPosition) * 1.5;
+            viewport.current.scrollLeft = scrollingLeft - walk;
+        }
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
 
     const handleScroll = () => {
         if (viewport.current) {
@@ -265,13 +288,13 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
         };
     }, [loading]);
 
-    const scrollLeft = () => {
+    const scrollToLeft = () => {
         if (viewport.current) {
             viewport.current.scrollBy({ left: -400, behavior: 'smooth' });
         }
     };
 
-    const scrollRight = () => {
+    const scrollToRight = () => {
         if (viewport.current) {
             viewport.current.scrollBy({ left: 400, behavior: 'smooth' });
         }
@@ -293,12 +316,27 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
             <Button
                 variant="outline"
                 color="dark"
-                onClick={scrollLeft}
-                style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 1 }}
+                onClick={scrollToLeft}
+                style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    zIndex: 1,
+                }}
             >
                 <IconChevronLeft size={24} />
             </Button>
-            <ScrollArea viewportRef={viewport} style={{ width: '100%', whiteSpace: 'nowrap' }} type="never" scrollbars="x">
+            <ScrollArea
+                viewportRef={viewport}
+                style={{ width: '100%', whiteSpace: 'nowrap' }}
+                type="never"
+                scrollbars="x"
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+            >
                 <div style={{ display: 'flex' }}>
                     {slides}
                     {loading && (
@@ -311,8 +349,14 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
             <Button
                 variant="outline"
                 color="dark"
-                onClick={scrollRight}
-                style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 1 }}
+                onClick={scrollToRight}
+                style={{
+                    position: 'absolute',
+                    right: 0,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    zIndex: 1,
+                }}
             >
                 <IconChevronRight size={24} />
             </Button>
