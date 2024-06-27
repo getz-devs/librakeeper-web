@@ -32,16 +32,18 @@ function Card({ image, title, text }: Item) {
             shadow="md"
             p="xl"
             radius="md"
-            style={{ backgroundImage: `url(${image})` }}
+            style={{
+                backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(${image})`,
+            }}
             className={classes.card}
         >
             <div>
-                <Text className={classes.category} size="xs">
-                    {text}
-                </Text>
                 <Title order={3} className={classes.title}>
                     {title}
                 </Title>
+                <Text className={classes.category} size="xs">
+                    {text}
+                </Text>
             </div>
             <Button variant="white" color="dark">
                 Read
@@ -61,7 +63,7 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
     const [startPosition, setStartPosition] = useState(0);
     const [scrollingLeft, setScrollLeft] = useState(0);
 
-    const handleMouseDown = (e: { clientX: SetStateAction<number>; }) => {
+    const handleMouseDown = (e: { clientX: SetStateAction<number> }) => {
         if (viewport.current) {
             setIsDragging(true);
             setStartPosition(e.clientX);
@@ -71,7 +73,7 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
         }
     };
 
-    const handleMouseMove = (e: { clientX: number; }) => {
+    const handleMouseMove = (e: { clientX: number }) => {
         if (viewport.current) {
             if (!isDragging) return;
             const walk = (e.clientX - startPosition) * 1.5;
@@ -165,7 +167,14 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
                             {loader}
                         </Box>
                     )} */}
-                    <Box style={{ display: 'flex', justifyContent: 'center', align: 'center', padding: '4px' }}>
+                    <Box
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            align: 'center',
+                            padding: '4px',
+                        }}
+                    >
                         {loader}
                     </Box>
                 </div>
