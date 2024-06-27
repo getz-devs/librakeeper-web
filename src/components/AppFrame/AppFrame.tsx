@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { AppShell, Burger, Group, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-
 import {
     IconHome2,
     IconGauge,
@@ -15,6 +14,8 @@ import {
     // IconLogout,
     // IconSwitchHorizontal,
 } from '@tabler/icons-react';
+import { ColorSchemeToggle } from '@/src/components/ColorSchemeToggle/ColorSchemeToggle';
+
 import classes from './AppFrame.module.css';
 import GoogleAuthButton from '@/src/components/GoogleAuthButton/GoogleAuthButton';
 
@@ -73,9 +74,10 @@ export function AppFrame({ children }: AppFrameProps) {
             padding="md"
         >
             <AppShell.Header>
-                <Group h="100%" px="md">
+                <Group h="100%" px="md" style={{ justifyContent: 'space-between' }}>
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
                     <div className={classes.customLabel}> L </div>
+                    <div style={{ marginLeft: 'auto' }}> <ColorSchemeToggle /> </div>
                 </Group>
             </AppShell.Header>
             <AppShell.Navbar p="md">
