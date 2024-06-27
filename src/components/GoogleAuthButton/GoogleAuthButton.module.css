@@ -2,7 +2,7 @@
     width: rem(60px);
     height: rem(60px);
     border-radius: var(--mantine-radius-md);
-    /* display: flex;
+    display: flex;
     align-items: center;
-    justify-content: center; */
+    justify-content: center;
 }
