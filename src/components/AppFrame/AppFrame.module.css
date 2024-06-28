@@ -11,7 +11,10 @@
     justify-content: center;
     font-size: 22px;
     font-weight: 600;
-    color: rgb(255, 64, 0);
+    color: var(--mantine-color-blue-8);
+    /* background-color: var(--mantine-color-blue-1);
+    border-radius: var(--mantine-radius-xl);
+    margin: 5px; */
 }
 
 .link {
