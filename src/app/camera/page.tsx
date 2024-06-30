@@ -1,10 +1,10 @@
 import { Container } from '@mantine/core';
-import { Welcome } from '@/src/components/Welcome/Welcome';
+import { QRcodeCamera } from '@/src/components/Html5qrcode/QRcodeCamera';
 
 export default function HomePage() {
     return (
         <Container size="xl" px={0}>
-            <Welcome />
+            <QRcodeCamera />
         </Container>
     );
 }
