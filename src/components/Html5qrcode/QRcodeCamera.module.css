@@ -1,9 +1,17 @@
-.camera{
-    width: 500px;
+.camera {
+    width: 600px;
     /* display: flex; */
     /* align-items: center; */
     /* justify-content: center; */
     /* margin: auto; */
-    margin-left: 30%;
+    margin-left: 25%;
     margin-top: 1rem;
+}
+
+@media screen and (max-width: 821px) {
+    .camera {
+        width: 100%;
+        margin-left: 0%;
+        margin-top: 1rem;
+    }
 }
