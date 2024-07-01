@@ -1,5 +1,8 @@
 import { Button } from '@mantine/core';
 import Link from 'next/link';
+import {
+    IconPlus,
+} from '@tabler/icons-react';
 
 function AddButton() {
     return (
@@ -17,14 +20,11 @@ function AddButton() {
                 zIndex: 1000,
                 width: '80px',
                 height: '80px',
-                fontSize: '50px',
-                fontWeight: 600,
                 padding: 0,
-                paddingBottom: '10px',
                 borderRadius: '50%',
             }}
         >
-            +
+            <IconPlus size={36} />
         </Button>
     );
 }
