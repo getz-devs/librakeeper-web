@@ -9,11 +9,15 @@ export function QRcodeCamera() {
     const [scanResult, setScanResult] = useState('');
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onNewScanResult = (decodedText : any, decodedResult : any) => {
+    const onNewScanResult = (decodedText: any, decodedResult: any) => {
         // handle decoded results here
         console.log(`Scan result: ${decodedText}`);
-        // alert(`Scan result: ${decodedText}`);
+        alert(`Scan result: ${decodedText}`);
         setScanResult(decodedText); // Записываем результат в состояние
+    };
+
+    const handleInputChange = (event : any) => {
+        setScanResult(event.target.value);
     };
 
     return (
@@ -28,7 +32,11 @@ export function QRcodeCamera() {
                 />
             </div>
             <div className={classes.camera}>
-                <Input placeholder="Input component" value={scanResult} />
+                <Input
+                    placeholder="Input component"
+                    value={scanResult}
+                    onChange={handleInputChange} // Добавляем обработчик изменений
+                />
             </div>
         </div>
     );
