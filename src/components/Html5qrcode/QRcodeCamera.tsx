@@ -12,7 +12,7 @@ export function QRcodeCamera() {
     const onNewScanResult = (decodedText: any, decodedResult: any) => {
         // handle decoded results here
         console.log(`Scan result: ${decodedText}`);
-        alert(`Scan result: ${decodedText}`);
+        // alert(`Scan result: ${decodedText}`);
         setScanResult(decodedText); // Записываем результат в состояние
     };
 
