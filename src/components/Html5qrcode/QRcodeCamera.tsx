@@ -13,7 +13,7 @@ export function QRcodeCamera() {
         // handle decoded results here
         console.log(`Scan result: ${decodedText}`);
         // alert(`Scan result: ${decodedText}`);
-        setScanResult(decodedText); // Записываем результат в состояние
+        setScanResult(decodedText);
     };
 
     const handleInputChange = (event : any) => {
@@ -35,7 +35,7 @@ export function QRcodeCamera() {
                 <Input
                     placeholder="Input component"
                     value={scanResult}
-                    onChange={handleInputChange} // Добавляем обработчик изменений
+                    onChange={handleInputChange}
                 />
             </div>
         </div>
