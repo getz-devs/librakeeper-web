@@ -8,6 +8,17 @@
     margin-top: 1rem;
 }
 
+.customButton {
+    margin-top: 1rem;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+}
+
+.customText {
+    font-size: 24px;
+}
+
 @media screen and (max-width: 821px) {
     .camera {
         width: 100%;

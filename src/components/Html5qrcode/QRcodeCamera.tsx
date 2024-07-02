@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Input } from '@mantine/core';
+import Link from 'next/link';
+import { Button, Input } from '@mantine/core';
 import Html5QrcodePlugin from './Html5QrcodeScannerPlugin';
 import classes from './QRcodeCamera.module.css';
 
 export function QRcodeCamera() {
     const [scanResult, setScanResult] = useState('');
+    const [scannerKey, setScannerKey] = useState(Date.now());
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onNewScanResult = (decodedText: any, decodedResult: any) => {
@@ -14,9 +16,10 @@ export function QRcodeCamera() {
         console.log(`Scan result: ${decodedText}`);
         // alert(`Scan result: ${decodedText}`);
         setScanResult(decodedText);
+        setScannerKey(Date.now());
     };
 
-    const handleInputChange = (event : any) => {
+    const handleInputChange = (event: any) => {
         setScanResult(event.target.value);
     };
 
@@ -24,6 +27,7 @@ export function QRcodeCamera() {
         <div>
             <div className={classes.camera}>
                 <Html5QrcodePlugin
+                    key={scannerKey}
                     fps={10}
                     qrbox={260}
                     disableFlip={false}
@@ -37,6 +41,19 @@ export function QRcodeCamera() {
                     value={scanResult}
                     onChange={handleInputChange}
                 />
+                <div className={classes.customButton}>
+                    <Button
+                        className={classes.customText}
+                        size="42"
+                        component={Link}
+                        // href="/search"
+                        // eslint-disable-next-line no-template-curly-in-string
+                        // href={`/search?q=${scanResult}`}
+                        href={{ pathname: '/search', query: { q: scanResult } }}
+                    >
+                        Search
+                    </Button>
+                </div>
             </div>
         </div>
     );
