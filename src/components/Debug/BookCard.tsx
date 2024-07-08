@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Group, Input, Textarea, Select } from '@mantine/core';
+import { Button, Card, Group, Input, Textarea } from '@mantine/core';
 import { useState } from 'react';
 import { useAuthContext } from '@/src/firebase/context';
 
@@ -159,12 +159,10 @@ export default function BookCard() {
                 onChange={(event) => setCoverImage(event.currentTarget.value)}
                 mb="xs"
             />
-            <Select
-                label="Bookshelf"
+            <Input
                 placeholder="Select a bookshelf"
-                data={[{ value: '', label: 'None' }]} // Replace with actual bookshelf data
                 value={bookshelfID}
-                onChange={(value) => setBookshelfID(value ?? '')} // Fix: Handle null with ?? operator
+                onChange={(event) => setBookshelfID(event.currentTarget.value)}
                 mb="xs"
             />
             <Group justify="left" mt="md">
