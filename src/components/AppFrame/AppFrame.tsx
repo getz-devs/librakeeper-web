@@ -1,7 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
-import { AppShell, Burger, Group, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
+import { AppShell, Burger, Group, Tooltip, UnstyledButton, Stack, rem, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
     IconHome2,
@@ -76,7 +77,7 @@ export function AppFrame({ children }: AppFrameProps) {
             <AppShell.Header>
                 <Group h="100%" px="md" style={{ justifyContent: 'space-between' }}>
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-                    <div className={classes.customLabel}> L </div>
+                    <Button variant="transparent" component={Link} href="/" className={classes.customLabel}> L </Button>
                     <div style={{ marginLeft: 'auto' }}> <ColorSchemeToggle /> </div>
                 </Group>
             </AppShell.Header>

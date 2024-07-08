@@ -1,0 +1,28 @@
+.icon {
+    width: rem(22px);
+    height: rem(22px);
+}
+
+.customGroup {
+    margin-right: 1rem;
+}
+
+.dark {
+    @mixin dark {
+        display: none;
+    }
+
+    @mixin light {
+        display: block;
+    }
+}
+
+.light {
+    @mixin light {
+        display: none;
+    }
+
+    @mixin dark {
+        display: block;
+    }
+}
