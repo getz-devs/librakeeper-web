@@ -47,7 +47,7 @@ function Card({ id, image, title, text }: Item) {
                     {text}
                 </Text>
             </div>
-            <Button variant="white" color="dark" component={Link} href={`/book/${id}`}>
+            <Button variant="white" color="dark" component={Link} href={{ pathname: '/book', query: { q: id } }}>
                 Read
             </Button>
         </Paper>
