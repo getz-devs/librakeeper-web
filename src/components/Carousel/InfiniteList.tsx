@@ -1,5 +1,6 @@
 import { ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
 // import { Carousel } from '@mantine/carousel';
+import Link from 'next/link';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import {
     ScrollArea,
@@ -15,6 +16,7 @@ import {
 import classes from './InfiniteList.module.css';
 
 interface Item {
+    id: string;
     image: string;
     title: string;
     text: string;
@@ -26,7 +28,7 @@ interface InfiniteScrollAreaProps {
     loader: ReactNode;
 }
 
-function Card({ image, title, text }: Item) {
+function Card({ id, image, title, text }: Item) {
     return (
         <Paper
             shadow="md"
@@ -45,7 +47,7 @@ function Card({ image, title, text }: Item) {
                     {text}
                 </Text>
             </div>
-            <Button variant="white" color="dark">
+            <Button variant="white" color="dark" component={Link} href={`/book/${id}`}>
                 Read
             </Button>
         </Paper>
@@ -126,10 +128,10 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
     // const theme = useMantineTheme();
     // const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
     const slides = items.map((item) => (
-        <Box key={item.title} className={classes.slide} style={{ margin: '0 10px' }}>
+        <Box key={item.id} className={classes.slide} style={{ margin: '0 10px' }}>
             <Card {...item} />
         </Box>
-        // <Carousel.Slide key={item.title} style={{ margin: '0 10px' }}>
+        // <Carousel.Slide key={item.id} style={{ margin: '0 10px' }}>
         //     <Card {...item} />
         // </Carousel.Slide>
     ));
