@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import VerticalList from '@/src/components/VerticalList/VerticalList';
 
 export default function SearchBar() {
     return (
@@ -17,5 +18,10 @@ function SearchBarContent() {
 
     // URL -> `/dashboard?search=my-project`
     // `search` -> 'my-project'
-    return <>Search: {search}</>;
+    return (
+        <div>
+            <>Search: {search}</>
+            <VerticalList />
+        </div>
+    );
 }

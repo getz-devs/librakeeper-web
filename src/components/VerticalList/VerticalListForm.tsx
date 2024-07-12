@@ -18,9 +18,9 @@ interface ListProps {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function BookCard({ id, image, title, text }: Item) {
     return (
-        <Card shadow="sm" padding={0} radius="md" withBorder style={{ width: 600 }}>
+        <Card shadow="sm" padding={0} radius="md" withBorder style={{ width: '60%' }}>
             <Group wrap="nowrap" gap={0}>
-                <Image src={image} />
+                <Image src={image} style={{ width: '40%' }} />
                 <Stack px="md" h="100%" style={{ width: '100%' }}>
                     <Group justify="space-between" mb="xs">
                         <Text fw={500}>{title}</Text>
@@ -31,7 +31,7 @@ function BookCard({ id, image, title, text }: Item) {
                     </Text>
 
                     <Stack align="end">
-                        <Button color="blue" fullWidth mt="md" radius="md" style={{ width: '50%' }}>
+                        <Button color="blue" fullWidth mt="md" radius="md" style={{ width: '40%' }}>
                             Choose this
                         </Button>
                     </Stack>
