@@ -1,38 +1,39 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Book } from '@/src/types/api';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { Card, Stack, Image, Group, Text, Badge, Button } from '@mantine/core';
+import { Bookshelf } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
-export default function Page() {
+export default function AllBookshelvesPage() {
     const { user } = useAuthContext();
-    const [books, setBooks] = useState<Book[]>([]);
+    const [bookshelves, setBookshelves] = useState<Bookshelf[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const fetchBooks = async () => {
+        const fetchBookshelves = async () => {
             try {
                 const token = await user?.getIdToken();
-                const res = await fetch(`${API_HOST}/books/`, {
-                    method: 'POST',
+                const res = await fetch(`${API_HOST}/bookshelves`, {
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
-                    body: JSON.stringify({ limit: 10, offset: 0 }),
                 });
-                const data: Book[] = await res.json();
-                setBooks(data);
+                const data: Bookshelf[] = await res.json();
+                setBookshelves(data);
             } catch (error) {
-                console.error('Error fetching books:', error);
+                console.error('Error fetching bookshelves:', error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchBooks();
+        fetchBookshelves();
     }, [user]);
 
     if (loading) {
@@ -41,11 +42,20 @@ export default function Page() {
 
     return (
         <div>
-            {books.map((book) => (
-                <div key={book.id}>
-                    <h1>{book.title}</h1>
-                    <p>{book.author}</p>
-                </div>
+            {bookshelves.map((shelf) => (
+                <Card shadow="sm" padding="lg" radius="md" withBorder style={{ width: '60%' }}>
+                    <Group justify="space-between" mt="" mb="xs">
+                        <Text fw={500}>{shelf.name}</Text>
+                    </Group>
+
+                    <Text size="sm" c="dimmed">
+                        Last update: {shelf.updated_at}
+                    </Text>
+
+                    <Button color="blue" fullWidth mt="md" radius="md">
+                        View all books
+                    </Button>
+                </Card>
             ))}
         </div>
     );
