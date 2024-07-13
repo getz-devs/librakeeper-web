@@ -78,9 +78,19 @@ export function AppFrame({ children }: AppFrameProps) {
                 <Group h="100%" px="md" style={{ justifyContent: 'space-between' }}>
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
                     <Button variant="transparent" component={Link} href="/" className={classes.customLabel}> L </Button>
+
+                    <Button
+                        ms="24px"
+                        variant="gradient"
+                        gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                        >
+                        My collections
+                    </Button>
+
                     <div style={{ marginLeft: 'auto' }}> <ColorSchemeToggle /> </div>
                 </Group>
             </AppShell.Header>
+
             <AppShell.Navbar p="md">
                 <Stack className={classes.navbarMain} justify="center" gap={3}>
                     {links}
