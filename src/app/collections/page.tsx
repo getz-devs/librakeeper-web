@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Card, Stack, Image, Group, Text, Badge, Button } from '@mantine/core';
+import Link from 'next/link';
 import { Bookshelf } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
 
@@ -52,7 +53,7 @@ export default function AllBookshelvesPage() {
                         Last update: {shelf.updated_at}
                     </Text>
 
-                    <Button color="blue" fullWidth mt="md" radius="md">
+                    <Button color="blue" fullWidth mt="md" radius="md" component={Link} href={{ pathname: '/search', query: { q: shelf.id } }}>
                         View all books
                     </Button>
                 </Card>

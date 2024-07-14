@@ -3,6 +3,7 @@
 /* eslint-disable arrow-body-style */
 
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import ListOfCards from './VerticalListForm';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
@@ -10,7 +11,9 @@ import { useAuthContext } from '@/src/firebase/context';
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
 export default function BooksByBookshelfPage() {
-    const bookshelfId = '1';
+    const searchParams = useSearchParams();
+    const bookshelfId = searchParams.get('q');
+
     const { user } = useAuthContext();
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
