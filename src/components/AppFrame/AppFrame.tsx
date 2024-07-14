@@ -83,6 +83,8 @@ export function AppFrame({ children }: AppFrameProps) {
                         ms="24px"
                         variant="gradient"
                         gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                        component={Link}
+                        href="/collections"
                         >
                         My collections
                     </Button>

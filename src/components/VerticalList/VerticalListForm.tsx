@@ -3,31 +3,32 @@ import { Text, Button, Stack, Card, Group, Image } from '@mantine/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useRef } from 'react';
 import classes from './VerticalListForm.module.css';
+import { Book } from '@/src/types/api';
 
-interface Item {
-    id: string;
-    image: string;
-    title: string;
-    text: string;
-}
+// interface Item {
+//     id: string;
+//     image: string;
+//     title: string;
+//     text: string;
+// }
 
 interface ListProps {
-    items: Item[];
+    items: Book[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function BookCard({ id, image, title, text }: Item) {
+function BookCard({ id, title, author, description, cover_image }: Book) {
     return (
         <Card shadow="sm" padding={0} radius="md" withBorder style={{ width: '60%' }}>
             <Group wrap="nowrap" gap={0}>
-                <Image src={image} style={{ width: '40%' }} />
+                <Image src={cover_image} style={{ width: '40%' }} />
                 <Stack px="md" h="100%" style={{ width: '100%' }}>
                     <Group justify="space-between" mb="xs">
                         <Text fw={500}>{title}</Text>
                     </Group>
 
                     <Text size="sm" c="dimmed">
-                        {text}
+                        {description}
                     </Text>
 
                     <Stack align="end">
