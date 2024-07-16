@@ -2,6 +2,7 @@ import { Text, Button, Stack, Card, Group, Image } from '@mantine/core';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useRef } from 'react';
+import Link from 'next/link';
 import classes from './VerticalListForm.module.css';
 import { Book } from '@/src/types/api';
 
@@ -32,7 +33,7 @@ function BookCard({ id, title, author, description, cover_image }: Book) {
                     </Text>
 
                     <Stack align="end">
-                        <Button color="blue" fullWidth mt="md" radius="md" style={{ width: '40%' }}>
+                        <Button color="blue" fullWidth mt="md" radius="md" style={{ width: '40%' }} component={Link} href={{ pathname: '/search', query: { q: id } }}>
                             Choose this
                         </Button>
                     </Stack>
