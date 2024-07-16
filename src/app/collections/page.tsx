@@ -58,7 +58,9 @@ export default function AllBookshelvesPage() {
         //             mt="md"
         //             radius="md"
         //             component={Link}
-        //             href={{ pathname: '/search', query: { q: 1 } }}
+        //             // href={{ pathname: '/collections', query: { q: 1 } }}
+        //             // eslint-disable-next-line react/jsx-curly-brace-presence, @typescript-eslint/quotes
+        //             href={`/collections/1`}
         //         >
         //             View all books
         //         </Button>
@@ -76,7 +78,7 @@ export default function AllBookshelvesPage() {
                         Last update: {shelf.updated_at}
                     </Text>
 
-                    <Button color="blue" fullWidth mt="md" radius="md" component={Link} href={{ pathname: '/search', query: { q: shelf.id } }}>
+                    <Button color="blue" fullWidth mt="md" radius="md" component={Link} href={`/collections/${shelf.id}`}>
                         View all books
                     </Button>
                 </Card>
