@@ -2,8 +2,6 @@
 
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Button } from '@mantine/core';
-import Link from 'next/link';
 import VerticalListSearch from '@/src/components/VerticalList/VerticalListSearch';
 
 export default function SearchBar() {
@@ -23,9 +21,8 @@ function SearchBarContent() {
     return (
         <div>
             <div>
-                <VerticalListSearch ISBN={search}></VerticalListSearch>
+                <VerticalListSearch isAdv ISBN={search}></VerticalListSearch>
             </div>
-            <Button component={Link} href={{ pathname: '/advSearch', query: { q: search } }}>Здесь нет моей книги</Button>
         </div>
     );
 }
