@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Loader } from '@mantine/core';
+import { Loader, Title } from '@mantine/core';
 import InfiniteScrollArea from './InfiniteList';
 
 interface Item {
@@ -41,11 +41,21 @@ const ExampleList: React.FC = () => {
 
     return (
         // items
-        <InfiniteScrollArea
-            items={items}
-            fetchMoreData={fetchMoreData}
-            loader={<Loader size="md" />}
-        />
+        <div>
+            <Title
+                order={2}
+                ms={10}
+                mb="xs"
+                fw="bold"
+            >
+                LibraKeeper
+            </Title>
+            <InfiniteScrollArea
+                items={items}
+                fetchMoreData={fetchMoreData}
+                loader={<Loader size="md" />}
+            />
+        </div>
     );
 };
 export default ExampleList;

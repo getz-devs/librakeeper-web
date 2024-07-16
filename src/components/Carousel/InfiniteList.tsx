@@ -1,16 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
-// import { Carousel } from '@mantine/carousel';
-import Link from 'next/link';
-import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import {
+    Image,
     ScrollArea,
     Box,
     Text,
     Button,
     Paper,
     Title,
-    // useMantineTheme,
+    Card,
+    Group,
+    Badge,
+    AspectRatio,
 } from '@mantine/core';
+import Link from 'next/link';
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 
 // import { useMediaQuery } from '@mantine/hooks';
 import classes from './InfiniteList.module.css';
@@ -28,30 +32,53 @@ interface InfiniteScrollAreaProps {
     loader: ReactNode;
 }
 
-function Card({ id, image, title, text }: Item) {
+function CardBook({ id, image, title, text }: Item) {
     return (
-        <Paper
-            shadow="md"
-            p="xl"
-            radius="md"
-            style={{
-                backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(${image})`,
-            }}
-            className={classes.card}
-        >
-            <div>
-                <Title order={3} className={classes.title}>
-                    {title}
-                </Title>
-                <Text className={classes.category} size="xs">
-                    {text}
-                </Text>
-            </div>
-            <Button variant="white" color="dark" component={Link} href={{ pathname: '/book', query: { q: id } }}>
-                Read
-            </Button>
-        </Paper>
+        <Card shadow="sm" padding="lg" radius="md" withBorder w={200}>
+            <Card.Section style={{ userSelect: 'none', pointerEvents: 'none' }}>
+                <AspectRatio ratio={4 / 5} maw={300} mx="auto">
+                    <Image src={image} />
+                </AspectRatio>
+            </Card.Section>
+
+            <Group justify="space-between" mt="md" mb="xs">
+                <Text fw={500} truncate="end" component={Link} href={{ pathname: '/book', query: { q: id } }} span c="blue" inherit>{title}</Text>
+            </Group>
+
+            <Text size="sm" c="dimmed" truncate="end">
+                {text}
+            </Text>
+
+            {/* <Button color="blue" fullWidth mt="md" radius="md">
+                Go to...
+            </Button> */}
+        </Card>
     );
+    // return (
+    //     <Paper
+    //         shadow="md"
+    //         p="xl"
+    //         radius="md"
+    //         style={{
+    //             backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(${image})`,
+    //         }}
+    //         w="10rem"
+    //         h="16rem"
+    //         // className={classes.card}
+    //     >
+    //         <div>
+    //             <Title order={3} className={classes.title}>
+    //                 {title}
+    //             </Title>
+    //             <Text className={classes.category} size="xs">
+    //                 {text}
+    //             </Text>
+    //         </div>
+    //         <Button variant="white" color="dark" component={Link} href={{ pathname: '/book', query: { q: id } }}>
+    //             Read
+    //         </Button>
+    //     </Paper>
+    // );
 }
 
 const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
@@ -129,7 +156,7 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
     // const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
     const slides = items.map((item) => (
         <Box key={item.id} className={classes.slide} style={{ margin: '0 10px' }}>
-            <Card {...item} />
+            <CardBook {...item} />
         </Box>
         // <Carousel.Slide key={item.id} style={{ margin: '0 10px' }}>
         //     <Card {...item} />
