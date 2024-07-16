@@ -3,16 +3,21 @@
 /* eslint-disable arrow-body-style */
 
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import ListOfCards from './VerticalListForm';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
-export default function BooksByBookshelfPage() {
-    const searchParams = useSearchParams();
-    const bookshelfId = searchParams.get('q');
+interface VerticalListProps {
+    bookshelfId: string;
+}
+
+export default function BooksByBookshelfPage(params : VerticalListProps) {
+    // const searchParams = useSearchParams();
+    // const bookshelfId = searchParams.get('q');
+    const { bookshelfId } = params;
 
     const { user } = useAuthContext();
     const [books, setBooks] = useState<Book[]>([]);
@@ -45,7 +50,12 @@ export default function BooksByBookshelfPage() {
         return <div>Loading...</div>;
     }
 
-    return <ListOfCards items={books} />;
+    return (
+        <div>
+            <div> {bookshelfId} </div>
+            <ListOfCards items={books} />
+        </div>
+    );
 }
 
 // const MyComponent: React.FC = () => {
