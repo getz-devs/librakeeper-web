@@ -13,15 +13,23 @@ interface CarouselProps {
 }
 
 function CarouselCards({ bookshelf }: CarouselProps) {
-    const { user } = useAuthContext();
+    const { user, loading: userloading } = useAuthContext();
     const [items, setItems] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchBooks = async () => {
+            if (userloading) {
+                return;
+            }
+
+            if (!user) {
+                setLoading(false);
+                return;
+            }
             try {
                 const token = await user?.getIdToken();
-                const res = await fetch(`${API_HOST}/books?bookshelf_id=${bookshelf.id}`, {
+                const res = await fetch(`${API_HOST}/books/bookshelf/${bookshelf.id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -54,6 +62,10 @@ function CarouselCards({ bookshelf }: CarouselProps) {
             }, 1500);
         });
 
+    // if (items === undefined || items === null) {
+    //     return <div>No books found</div>;
+    // }
+
     return (
         <div>
             <Title order={2} ms={10} mb="xs" fw="bold">
@@ -61,12 +73,14 @@ function CarouselCards({ bookshelf }: CarouselProps) {
             </Title>
             {loading ? (
                 <Loader size="md" />
-            ) : (
+            ) : items ? (
                 <InfiniteScrollArea
                     items={items}
                     fetchMoreData={fetchMoreData}
                     loader={<Loader size="md" />}
                 />
+            ) : (
+                <div>No books found</div>
             )}
         </div>
     );

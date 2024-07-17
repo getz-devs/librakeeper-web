@@ -13,15 +13,23 @@ import CarouselCards from '../CarouselCards/CarouselCards';
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
 export default function AllBookshelvesPage() {
-    const { user } = useAuthContext();
+    const { user, loading: userloading } = useAuthContext();
     const [bookshelves, setBookshelves] = useState<Bookshelf[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchBookshelves = async () => {
+            if (userloading) {
+                return;
+            }
+
+            if (!user) {
+                setLoading(false);
+                return;
+            }
             try {
                 const token = await user?.getIdToken();
-                const res = await fetch(`${API_HOST}/bookshelves`, {
+                const res = await fetch(`${API_HOST}/bookshelves/`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -30,6 +38,7 @@ export default function AllBookshelvesPage() {
                 });
                 const data: Bookshelf[] = await res.json();
                 setBookshelves(data);
+                console.log(bookshelves);
             } catch (error) {
                 console.error('Error fetching bookshelves:', error);
             } finally {
@@ -42,6 +51,10 @@ export default function AllBookshelvesPage() {
 
     if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (bookshelves === undefined) {
+        return <div>No bookshelves found</div>;
     }
 
     return (
@@ -90,8 +103,8 @@ export default function AllBookshelvesPage() {
 
         <div>
             {bookshelves.map((shelf) => (
-                <CarouselCards bookshelf={shelf}></CarouselCards>
-            ))};
+                <CarouselCards key={shelf.id} bookshelf={shelf}></CarouselCards>
+            ))}
         </div>
     );
 }

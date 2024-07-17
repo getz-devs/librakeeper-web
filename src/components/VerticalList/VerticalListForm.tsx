@@ -65,6 +65,8 @@ function BookCard({ book }: BookCardProps) {
                             fullWidth
                             mt="md"
                             radius="md"
+                            component={Link}
+                            href={{ pathname: '/' }}
                             style={{ width: '40%' }}
                             onClick={() => onClickHandler(book, user)}
                         >
