@@ -1,107 +1,77 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
-import { AppShell, Burger, Group, Tooltip, UnstyledButton, Stack, rem, Button } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import {
-    IconHome2,
-    IconGauge,
-    IconDeviceDesktopAnalytics,
-    IconFingerprint,
-    IconCalendarStats,
-    IconUser,
-    IconSettings,
-    // IconLogout,
-    // IconSwitchHorizontal,
-} from '@tabler/icons-react';
+    AppShell,
+    Group,
+    Button,
+    Container,
+} from '@mantine/core';
+
 import { ColorSchemeToggle } from '@/src/components/ColorSchemeToggle/ColorSchemeToggle';
 
 import classes from './AppFrame.module.css';
 import GoogleAuthButton from '@/src/components/GoogleAuthButton/GoogleAuthButton';
-
-interface NavbarLinkProps {
-    icon: typeof IconHome2;
-    label: string;
-    active?: boolean;
-    onClick?: () => void;
-}
-
-function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
-    return (
-        <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-            <UnstyledButton
-                onClick={onClick}
-                className={classes.link}
-                data-active={active || undefined}
-            >
-                <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-            </UnstyledButton>
-        </Tooltip>
-    );
-}
-
-const mockdata = [
-    { icon: IconHome2, label: 'Home' },
-    { icon: IconGauge, label: 'Dashboard' },
-    { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
-    { icon: IconCalendarStats, label: 'Releases' },
-    { icon: IconUser, label: 'Account' },
-    { icon: IconFingerprint, label: 'Security' },
-    { icon: IconSettings, label: 'Settings' },
-];
 
 interface AppFrameProps {
     children: React.ReactNode;
 }
 
 export function AppFrame({ children }: AppFrameProps) {
-    const [active, setActive] = useState(0);
-    const [opened, { toggle }] = useDisclosure();
-
-    const links = mockdata.map((link, index) => (
-        <NavbarLink
-            {...link}
-            key={link.label}
-            active={index === active}
-            onClick={() => setActive(index)}
-        />
-    ));
+    const demoProps = {
+        // bg: 'var(--mantine-color-blue-light)',
+        h: 50,
+        mt: 'md',
+    };
 
     return (
         <AppShell
             header={{ height: 60 }}
-            navbar={{ width: 90, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-            padding="md"
+            // navbar={{ width: 90, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+            padding=""
         >
             <AppShell.Header>
-                <Group h="100%" px="md" style={{ justifyContent: 'space-between' }}>
-                    <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-                    <Button variant="transparent" component={Link} href="/" className={classes.customLabel}> L </Button>
-
-                    <Button
-                        ms="24px"
-                        variant="gradient"
-                        gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-                        component={Link}
-                        href="/collections"
+                <Container px={0} size="76rem">
+                    <Group h="100%" px="xs" style={{ justifyContent: 'space-between' }}>
+                        <Button
+                            variant="transparent"
+                            component={Link}
+                            href="/"
+                            className={classes.customLabel}
                         >
-                        My collections
-                    </Button>
+                            {' '}
+                            Libra{' '}
+                        </Button>
 
-                    <div style={{ marginLeft: 'auto' }}> <ColorSchemeToggle /> </div>
-                </Group>
+                        <Button
+                            ms="24px"
+                            variant="gradient"
+                            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+                            component={Link}
+                            href="/collections"
+                        >
+                            My collections
+                        </Button>
+
+                        <div style={{ marginLeft: 'auto', display: 'flex', gap: '2rem' }}>
+                            <GoogleAuthButton></GoogleAuthButton>
+                            <ColorSchemeToggle />
+                        </div>
+                    </Group>
+                </Container>
             </AppShell.Header>
 
-            <AppShell.Navbar p="md">
+            {/* <AppShell.Navbar p="md">
                 <Stack className={classes.navbarMain} justify="center" gap={3}>
                     {links}
                 </Stack>
                 <div>
                     <GoogleAuthButton></GoogleAuthButton>
                 </div>
-            </AppShell.Navbar>
-            <AppShell.Main>{children}</AppShell.Main>
+            </AppShell.Navbar> */}
+            <AppShell.Main>
+                <Container px={0} size="76rem" {...demoProps}>{children}</Container>
+            </AppShell.Main>
         </AppShell>
     );
 }
