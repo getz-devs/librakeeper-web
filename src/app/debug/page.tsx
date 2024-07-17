@@ -1,6 +1,6 @@
 import { Container, SimpleGrid, Stack } from '@mantine/core';
 import GetTokenCard from '@/src/components/Debug/GetTokenCard';
-import BookCard from '@/src/components/Debug/BookCard';
+import { BookCard } from '@/src/components/SearchTest/BookCard';
 import BookshelfCard from '@/src/components/Debug/BookshelfCard';
 import UserCard from '@/src/components/Debug/UserCard';
 
@@ -12,8 +12,9 @@ export default function HomePage() {
                     <GetTokenCard />
                     <UserCard />
                 </Stack>
-                <BookCard />
+                {/* <BookCard /> */}
                 <BookshelfCard />
+                <BookCard id="6695ec2420e3af025ead0aa4" />
             </SimpleGrid>
         </Container>
     );
