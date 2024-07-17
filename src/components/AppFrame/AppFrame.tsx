@@ -31,19 +31,18 @@ export function AppFrame({ children }: AppFrameProps) {
             padding=""
         >
             <AppShell.Header>
-                <Container px={0} size="76rem">
-                    <Group h="100%" px="xs" style={{ justifyContent: 'space-between' }}>
+                <Container px="0.3rem" size="76rem">
+                    <Group h="100%" px="" style={{ justifyContent: 'space-between' }}>
                         <Button
                             variant="transparent"
                             component={Link}
                             href="/"
                             className={classes.customLabel}
                         >
-                            {' '}
-                            Libra{' '}
+                            Libra Keeper
                         </Button>
 
-                        <Button
+                        {/* <Button
                             ms="24px"
                             variant="gradient"
                             gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
@@ -51,7 +50,7 @@ export function AppFrame({ children }: AppFrameProps) {
                             href="/collections"
                         >
                             My collections
-                        </Button>
+                        </Button> */}
 
                         <div style={{ marginLeft: 'auto', display: 'flex', gap: '2rem' }}>
                             <GoogleAuthButton></GoogleAuthButton>
@@ -70,7 +69,7 @@ export function AppFrame({ children }: AppFrameProps) {
                 </div>
             </AppShell.Navbar> */}
             <AppShell.Main>
-                <Container px={0} size="76rem" {...demoProps}>{children}</Container>
+                <Container size="76rem" {...demoProps}>{children}</Container>
             </AppShell.Main>
         </AppShell>
     );
