@@ -15,29 +15,30 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
+import { Book } from '@/src/types/api';
 
 // import { useMediaQuery } from '@mantine/hooks';
 import classes from './InfiniteList.module.css';
 
-interface Item {
-    id: string;
-    image: string;
-    title: string;
-    text: string;
-}
+// interface Item {
+//     id: string;
+//     image: string;
+//     title: string;
+//     text: string;
+// }
 
 interface InfiniteScrollAreaProps {
-    items: Item[];
+    items: Book[];
     fetchMoreData: () => Promise<void>;
     loader: ReactNode;
 }
 
-function CardBook({ id, image, title, text }: Item) {
+function CardBook({ id, cover_image, title, description }: Book) {
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder w={200}>
             <Card.Section style={{ userSelect: 'none', pointerEvents: 'none' }}>
                 <AspectRatio ratio={4 / 5} maw={300} mx="auto">
-                    <Image src={image} />
+                    <Image src={cover_image} />
                 </AspectRatio>
             </Card.Section>
 
@@ -46,7 +47,7 @@ function CardBook({ id, image, title, text }: Item) {
             </Group>
 
             <Text size="sm" c="dimmed" truncate="end">
-                {text}
+                {description}
             </Text>
 
             {/* <Button color="blue" fullWidth mt="md" radius="md">

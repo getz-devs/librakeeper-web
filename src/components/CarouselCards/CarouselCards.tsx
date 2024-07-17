@@ -1,32 +1,44 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Loader, Title } from '@mantine/core';
 import InfiniteScrollArea from './InfiniteList';
-import { Bookshelf } from '@/src/types/api';
+import { Bookshelf, Book } from '@/src/types/api';
+import { useAuthContext } from '@/src/firebase/context';
 
-interface Item {
-    id: string;
-    image: string;
-    title: string;
-    text: string;
-}
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
 interface CarouselProps {
     bookshelf: Bookshelf;
 }
 
-function CarouselCards(params : CarouselProps) {
-    const { bookshelf } = params;
-    const [items, setItems] = useState<Item[]>(
-        Array.from({ length: 20 }, (_, i) => ({
-            title: `SuperJet ${i + 100}`,
-            text: `This is the text for item ${i + 1}`,
-            // image: 'https://animego.online/uploads/posts/2020-07/1593634011-volchica-i-pryanosti-poster.jpg',
-            image: 'https://sun9-16.userapi.com/impf/c637718/v637718963/51fd9/nACCl1pDqvM.jpg?size=222x314&quality=96&sign=e71b016beb5daa4c8f7a968c83636cf2&type=album',
-            id: `${i + 1}`,
-        }))
-    );
+function CarouselCards({ bookshelf }: CarouselProps) {
+    const { user } = useAuthContext();
+    const [items, setItems] = useState<Book[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchBooks = async () => {
+            try {
+                const token = await user?.getIdToken();
+                const res = await fetch(`${API_HOST}/books?bookshelf_id=${bookshelf.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const data: Book[] = await res.json();
+                setItems(data);
+            } catch (error) {
+                console.error('Error fetching books:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBooks();
+    }, [user, bookshelf.id]);
 
     const fetchMoreData = () =>
         new Promise<void>((resolve) => {
@@ -34,10 +46,7 @@ function CarouselCards(params : CarouselProps) {
                 setItems((prevItems) => [
                     ...prevItems,
                     ...Array.from({ length: 20 }, (_, i) => ({
-                        title: `SuperJet ${prevItems.length + i + 100}`,
-                        text: `This is the text for item ${prevItems.length + i + 1}`,
-                        // image: 'https://animego.online/uploads/posts/2020-07/1593634011-volchica-i-pryanosti-poster.jpg',
-                        image: 'https://sun9-16.userapi.com/impf/c637718/v637718963/51fd9/nACCl1pDqvM.jpg?size=222x314&quality=96&sign=e71b016beb5daa4c8f7a968c83636cf2&type=album',
+                        ...prevItems[i % prevItems.length],
                         id: `${prevItems.length + i + 1}`,
                     })),
                 ]);
@@ -46,61 +55,21 @@ function CarouselCards(params : CarouselProps) {
         });
 
     return (
-        // items
         <div>
             <Title order={2} ms={10} mb="xs" fw="bold">
-                Favorites
+                {bookshelf.name}
             </Title>
-            <InfiniteScrollArea
-                items={items}
-                fetchMoreData={fetchMoreData}
-                loader={<Loader size="md" />}
-            />
+            {loading ? (
+                <Loader size="md" />
+            ) : (
+                <InfiniteScrollArea
+                    items={items}
+                    fetchMoreData={fetchMoreData}
+                    loader={<Loader size="md" />}
+                />
+            )}
         </div>
     );
 }
 
 export default CarouselCards;
-
-// const ExampleList: React.FC<CarouselProps> = ({ bookshelfs }) => {
-//     const [items, setItems] = useState<Item[]>(
-//         Array.from({ length: 20 }, (_, i) => ({
-//             title: `SuperJet ${i + 100}`,
-//             text: `This is the text for item ${i + 1}`,
-//             // image: 'https://animego.online/uploads/posts/2020-07/1593634011-volchica-i-pryanosti-poster.jpg',
-//             image: 'https://sun9-16.userapi.com/impf/c637718/v637718963/51fd9/nACCl1pDqvM.jpg?size=222x314&quality=96&sign=e71b016beb5daa4c8f7a968c83636cf2&type=album',
-//             id: `${i + 1}`,
-//         }))
-//     );
-
-//     const fetchMoreData = () =>
-//         new Promise<void>((resolve) => {
-//             setTimeout(() => {
-//                 setItems((prevItems) => [
-//                     ...prevItems,
-//                     ...Array.from({ length: 20 }, (_, i) => ({
-//                         title: `SuperJet ${prevItems.length + i + 100}`,
-//                         text: `This is the text for item ${prevItems.length + i + 1}`,
-//                         // image: 'https://animego.online/uploads/posts/2020-07/1593634011-volchica-i-pryanosti-poster.jpg',
-//                         image: 'https://sun9-16.userapi.com/impf/c637718/v637718963/51fd9/nACCl1pDqvM.jpg?size=222x314&quality=96&sign=e71b016beb5daa4c8f7a968c83636cf2&type=album',
-//                         id: `${prevItems.length + i + 1}`,
-//                     })),
-//                 ]);
-//                 resolve();
-//             }, 1500);
-//         });
-
-//     return (
-//         // items
-//         <div>
-//             <Title order={2} ms={10} mb="xs" fw="bold">
-//                 Favorites
-//             </Title>
-//             <InfiniteScrollArea
-//                 items={items}
-//                 fetchMoreData={fetchMoreData}
-//                 loader={<Loader size="md" />}
-//             />
-//         </div>
-//     );
-// };
