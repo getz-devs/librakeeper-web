@@ -3,57 +3,60 @@
 'use client';
 
 import { Text, Button, Stack, Card, Group, Image } from '@mantine/core';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useRef } from 'react';
 import Link from 'next/link';
 import classes from './VerticalListForm.module.css';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
 
-interface Item {
-    id: string;
-    image: string;
-    title: string;
-    text: string;
-}
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
 interface ListProps {
     items: Book[];
 }
 
-// const { user } = useAuthContext();
-// const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
+async function onClickHandler(book: Book, user: any) {
+    try {
+        const token = await user?.getIdToken();
+        book.user_id = user.uid;
+        const res = await fetch(`${API_HOST}/books/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(book),
+        });
 
-// async function onClickHandler(id: string) {
-//     try {
-//         const token = await user?.getIdToken();
-//         await fetch(`${API_HOST}/api/books/add`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//                 Authorization: `Bearer ${token}`,
-//             },
-//             body: JSON.stringify({ bookId: id }),
-//         });
-//     } catch (error) {
-//         console.error('Error fetching books:', error);
-//     }
-// }
+        if (!res.ok) {
+            throw new Error('Ошибка при добавлении книги');
+        }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function BookCard({ id, title, author, description, cover_image }: Book) {
+        const addedBook = await res.json();
+        console.log('Книга успешно добавлена:', addedBook);
+    } catch (error) {
+        console.error('Ошибка при добавлении книги:', error);
+    }
+}
+
+interface BookCardProps {
+    book: Book;
+}
+
+function BookCard({ book }: BookCardProps) {
+    const { user } = useAuthContext();
+
     return (
         <Card shadow="sm" padding={0} radius="md" withBorder style={{ width: '60%' }}>
             <Group wrap="nowrap" gap={0}>
-                <Image src={cover_image} style={{ width: '40%' }} />
+                <Image src={book.cover_image} style={{ width: '40%' }} />
                 <Stack px="md" h="100%" style={{ width: '100%' }}>
                     <Group justify="space-between" mb="xs">
-                        <Text fw={500}>{title}</Text>
+                        <Text fw={500}>{book.title}</Text>
                     </Group>
 
                     <Text size="sm" c="dimmed">
-                        {description}
+                        {book.description}
                     </Text>
 
                     <Stack align="end">
@@ -63,7 +66,7 @@ function BookCard({ id, title, author, description, cover_image }: Book) {
                             mt="md"
                             radius="md"
                             style={{ width: '40%' }}
-                            // onClick={() => onClickHandler(id)}
+                            onClick={() => onClickHandler(book, user)}
                         >
                             Choose this
                         </Button>
@@ -79,7 +82,7 @@ const ListOfCards: React.FC<ListProps> = ({ items }) => {
     return (
         <div ref={viewport} className={classes.list}>
             {items.map((item) => (
-                <BookCard key={item.id} {...item} />
+                <BookCard key={item.id} book={item} />
             ))}
         </div>
     );
