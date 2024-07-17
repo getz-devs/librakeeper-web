@@ -48,7 +48,7 @@ const ExampleList: React.FC = () => {
                 mb="xs"
                 fw="bold"
             >
-                LibraKeeper
+                Favorites
             </Title>
             <InfiniteScrollArea
                 items={items}
