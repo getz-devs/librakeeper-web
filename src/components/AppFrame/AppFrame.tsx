@@ -1,12 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import {
-    AppShell,
-    Group,
-    Button,
-    Container,
-} from '@mantine/core';
+import { AppShell, Group, Button, Container } from '@mantine/core';
 
 import { ColorSchemeToggle } from '@/src/components/ColorSchemeToggle/ColorSchemeToggle';
 
@@ -69,7 +64,9 @@ export function AppFrame({ children }: AppFrameProps) {
                 </div>
             </AppShell.Navbar> */}
             <AppShell.Main>
-                <Container size="76rem" {...demoProps}>{children}</Container>
+                <Container size="76rem" {...demoProps}>
+                    {children}
+                </Container>
             </AppShell.Main>
         </AppShell>
     );

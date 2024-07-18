@@ -25,7 +25,9 @@ function SearchBarContent() {
             <div>
                 <VerticalListSearch ISBN={search}></VerticalListSearch>
             </div>
-            <Button component={Link} href={{ pathname: '/advSearch', query: { q: search } }}>Здесь нет моей книги</Button>
+            <Button component={Link} href={{ pathname: '/advSearch', query: { q: search } }}>
+                Здесь нет моей книги
+            </Button>
         </div>
     );
 }

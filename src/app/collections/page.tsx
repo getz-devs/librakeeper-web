@@ -78,7 +78,14 @@ export default function AllBookshelvesPage() {
                         Last update: {shelf.updated_at}
                     </Text>
 
-                    <Button color="blue" fullWidth mt="md" radius="md" component={Link} href={`/collections/${shelf.id}`}>
+                    <Button
+                        color="blue"
+                        fullWidth
+                        mt="md"
+                        radius="md"
+                        component={Link}
+                        href={`/collections/${shelf.id}`}
+                    >
                         View all books
                     </Button>
                 </Card>

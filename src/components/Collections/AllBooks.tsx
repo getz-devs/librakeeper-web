@@ -85,10 +85,7 @@ export default function AllBookshelvesPage() {
                     return;
                 }
 
-                setBooks((prevItems) => [
-                    ...prevItems,
-                    ...data,
-                ]);
+                setBooks((prevItems) => [...prevItems, ...data]);
 
                 setPage(page + 1);
             } catch (error) {

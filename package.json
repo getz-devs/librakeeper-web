@@ -11,7 +11,7 @@
         "lint": "next lint && pnpm run lint:stylelint",
         "lint:stylelint": "stylelint **/*.css --cache",
         "lint:fix": "next lint --fix",
-        "jest": "jest",
+        "jest": "jest --passWithNoTests",
         "jest:watch": "jest --watch",
         "prettier:check": "prettier --check \"**/*.{ts,tsx}\"",
         "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",

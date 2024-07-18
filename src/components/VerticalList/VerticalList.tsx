@@ -14,7 +14,7 @@ interface VerticalListProps {
     bookshelfId: string;
 }
 
-export default function BooksByBookshelfPage(params : VerticalListProps) {
+export default function BooksByBookshelfPage(params: VerticalListProps) {
     // const searchParams = useSearchParams();
     // const bookshelfId = searchParams.get('q');
     const { bookshelfId } = params;

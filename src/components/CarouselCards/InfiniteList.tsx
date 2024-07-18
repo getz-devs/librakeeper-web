@@ -43,7 +43,17 @@ function CardBook({ id, cover_image, title, description }: Book) {
             </Card.Section>
 
             <Group justify="space-between" mt="md" mb="xs">
-                <Text fw={500} truncate="end" component={Link} href={{ pathname: '/book', query: { q: id } }} span c="blue" inherit>{title}</Text>
+                <Text
+                    fw={500}
+                    truncate="end"
+                    component={Link}
+                    href={{ pathname: '/book', query: { q: id } }}
+                    span
+                    c="blue"
+                    inherit
+                >
+                    {title}
+                </Text>
             </Group>
 
             <Text size="sm" c="dimmed" truncate="end">
@@ -193,7 +203,14 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
                 <div style={{ display: 'flex' }}>
                     {slides}
                     {loading && (
-                        <Box style={{ display: 'flex', justifyContent: 'center', align: 'center', padding: '4px' }}>
+                        <Box
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                align: 'center',
+                                padding: '4px',
+                            }}
+                        >
                             {loader}
                         </Box>
                     )}

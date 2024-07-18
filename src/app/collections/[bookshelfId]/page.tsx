@@ -11,7 +11,5 @@ interface VerticalListProps {
 export default function Collection({ params }: { params: VerticalListProps }) {
     const { bookshelfId } = params;
 
-    return (
-        <VerticalList bookshelfId={bookshelfId}></VerticalList>
-    );
+    return <VerticalList bookshelfId={bookshelfId}></VerticalList>;
 }

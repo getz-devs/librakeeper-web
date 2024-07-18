@@ -23,7 +23,8 @@ function Card() {
             p="xl"
             radius="md"
             style={{
-                backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(https://itvdn.blob.core.windows.net/catalog-images/cplspls-essential-img.jpg)',
+                backgroundImage:
+                    'linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(https://itvdn.blob.core.windows.net/catalog-images/cplspls-essential-img.jpg)',
             }}
             className={classes.card}
         >

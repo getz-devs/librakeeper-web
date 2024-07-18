@@ -2,7 +2,7 @@
 
 import cx from 'clsx';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Button, ActionIcon, Group, useMantineColorScheme, useComputedColorScheme } from '@mantine/core';
+import { ActionIcon, Group, useMantineColorScheme, useComputedColorScheme } from '@mantine/core';
 import { IconSun, IconMoon } from '@tabler/icons-react';
 import classes from './ActionToggle.module.css';
 

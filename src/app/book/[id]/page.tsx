@@ -1,13 +1,11 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import Book from '@/src/components/Book/Book';
 
 export default function SearchBar() {
-    const searchParams = useSearchParams();
-    const bookId = searchParams.get('q');
+    // const searchParams = useSearchParams();
+    // const bookId = searchParams.get('q');
 
-    return (
-        <Book></Book>
-    );
+    return <Book></Book>;
 }

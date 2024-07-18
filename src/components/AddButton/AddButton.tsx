@@ -2,9 +2,7 @@
 
 import { Button } from '@mantine/core';
 import Link from 'next/link';
-import {
-    IconPlus,
-} from '@tabler/icons-react';
+import { IconPlus } from '@tabler/icons-react';
 
 function AddButton() {
     return (

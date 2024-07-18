@@ -113,7 +113,6 @@ export default function AllBookshelvesPage() {
             ) : (
                 <div>No collection found</div>
             )}
-
         </div>
     );
 }
