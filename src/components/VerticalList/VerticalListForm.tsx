@@ -11,11 +11,34 @@ import { useAuthContext } from '@/src/firebase/context';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
-interface ListProps {
-    items: Book[];
-}
+async function onClickHandler(book: Book, user: any, isAdv?: boolean, index?: number) {
+    if (isAdv) {
+        try {
+            const token = await user?.getIdToken();
+            book.user_id = user.uid;
+            const res = await fetch(
+                `${API_HOST}/books/add/advanced?isbn=${book.isbn}&index=${index}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify(book),
+                }
+            );
 
-async function onClickHandler(book: Book, user: any) {
+            if (!res.ok) {
+                throw new Error('Ошибка при добавлении книги');
+            }
+
+            const addedBook = await res.json();
+            console.log('Книга успешно добавлена:', addedBook);
+        } catch (error) {
+            console.error('Ошибка при добавлении книги:', error);
+        }
+    }
+
     try {
         const token = await user?.getIdToken();
         book.user_id = user.uid;
@@ -41,9 +64,11 @@ async function onClickHandler(book: Book, user: any) {
 
 interface BookCardProps {
     book: Book;
+    isAdv?: boolean;
+    index: number;
 }
 
-function BookCard({ book }: BookCardProps) {
+function BookCard({ book, isAdv, index }: BookCardProps) {
     const { user } = useAuthContext();
 
     return (
@@ -68,7 +93,7 @@ function BookCard({ book }: BookCardProps) {
                             component={Link}
                             href={{ pathname: '/' }}
                             style={{ width: '40%' }}
-                            onClick={() => onClickHandler(book, user)}
+                            onClick={() => onClickHandler(book, user, isAdv, index)}
                         >
                             Choose this
                         </Button>
@@ -79,12 +104,17 @@ function BookCard({ book }: BookCardProps) {
     );
 }
 
-const ListOfCards: React.FC<ListProps> = ({ items }) => {
+interface ListProps {
+    items: Book[];
+    isAdv?: boolean;
+}
+
+const ListOfCards: React.FC<ListProps> = ({ items, isAdv }) => {
     const viewport = useRef<HTMLDivElement>(null);
     return (
         <div ref={viewport} className={classes.list}>
-            {items.map((item) => (
-                <BookCard key={item.id} book={item} />
+            {items.map((item, i) => (
+                <BookCard key={`${item.id}-${i}`} book={item} isAdv={isAdv} index={i} />
             ))}
         </div>
     );

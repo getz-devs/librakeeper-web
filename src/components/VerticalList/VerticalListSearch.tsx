@@ -53,7 +53,14 @@ export default function VerticalListSearch({
                         },
                     });
                     let data = await res.json();
+                    if (data.error) {
+                        console.error('Error fetching books:', data.error);
+                        data = [];
+                        setBooks(data.books);
+                        break;
+                    }
                     status = data.status;
+                    console.log('status:', data);
                     if (status === 0) {
                         if (data === null) {
                             data = [];
@@ -89,7 +96,7 @@ export default function VerticalListSearch({
             {loading ? (
                 <Loader size="md" />
             ) : books ? (
-                <ListOfCards items={books} />
+                <ListOfCards isAdv={isAdv} items={books} />
             ) : (
                 <div>No books found</div>
             )}
