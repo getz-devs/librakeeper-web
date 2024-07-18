@@ -1,3 +1,5 @@
+/* eslint-disable no-async-promise-executor */
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -17,6 +19,8 @@ function CarouselCards({ bookshelf }: CarouselProps) {
     const { user, loading: userloading } = useAuthContext();
     const [items, setItems] = useState<Book[]>([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState<number>(1);
+    const [hasMore, setHasMore] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -49,18 +53,50 @@ function CarouselCards({ bookshelf }: CarouselProps) {
         fetchBooks();
     }, [user, bookshelf.id]);
 
+    // const fetchMoreData = () =>
+    //     new Promise<void>((resolve) => {
+    //         setTimeout(() => {
+    //             setItems((prevItems) => [
+    //                 ...prevItems,
+    //                 ...Array.from({ length: 20 }, (_, i) => ({
+    //                     ...prevItems[i % prevItems.length],
+    //                     id: `${prevItems.length + i + 1}`,
+    //                 })),
+    //             ]);
+    //             resolve();
+    //         }, 1500);
+    //     });
+
     const fetchMoreData = () =>
-        new Promise<void>((resolve) => {
-            setTimeout(() => {
-                setItems((prevItems) => [
-                    ...prevItems,
-                    ...Array.from({ length: 20 }, (_, i) => ({
-                        ...prevItems[i % prevItems.length],
-                        id: `${prevItems.length + i + 1}`,
-                    })),
-                ]);
+        new Promise<void>(async (resolve) => {
+            if (!hasMore) {
                 resolve();
-            }, 1500);
+                return;
+            }
+            try {
+                const token = await user?.getIdToken();
+                const res = await fetch(`${API_HOST}/books/bookshelf/${bookshelf.id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                let data: Book[] = await res.json();
+                if (data === null || data.length === 0) {
+                    setHasMore(false);
+                    data = [];
+                    resolve();
+                    return;
+                }
+
+                setItems((prevItems) => [...prevItems, ...data]);
+
+                setPage(page + 1);
+            } catch (error) {
+                console.error('Error fetching more books:', error);
+            }
+            resolve();
         });
 
     // if (items === undefined || items === null) {
