@@ -1,166 +1,137 @@
+/* eslint-disable max-len */
+
 'use client';
 
 import Link from 'next/link';
-import { AppShell, Group, Button, Container } from '@mantine/core';
-
+import { AppShell, Group, Button, Container, Modal, Input } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useState } from 'react';
 import { ColorSchemeToggle } from '@/src/components/ColorSchemeToggle/ColorSchemeToggle';
 
 import classes from './AppFrame.module.css';
 import GoogleAuthButton from '@/src/components/GoogleAuthButton/GoogleAuthButton';
+import { useAuthContext } from '@/src/firebase/context';
+import { Bookshelf } from '@/src/types/api';
+
+const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
 interface AppFrameProps {
     children: React.ReactNode;
 }
 
+async function FetchBookshelf(user: any, shelfName: string) {
+    if (!user) {
+        return;
+    }
+
+    // const bookshelf: Bookshelf = {
+    //     name: shelfName,
+    //     id: '',
+    //     user_id: user?.uid || '',
+    //     created_at: '',
+    //     updated_at: '',
+    // };
+
+    const bookshelf: Bookshelf = {} as Bookshelf;
+    bookshelf.name = shelfName;
+    bookshelf.user_id = user.uid;
+
+    console.log('Добавление коллекции:', bookshelf);
+
+    try {
+        const token = await user?.getIdToken();
+
+        const res = await fetch(
+            `${API_HOST}/bookshelves/add`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(bookshelf),
+            }
+        );
+
+        if (!res.ok) {
+            throw new Error('Ошибка при добавлении коллекции');
+        }
+
+        const addedBook = await res.json();
+        console.log('Коллекция успешно добавлена:', addedBook);
+    } catch (error) {
+        console.error('Ошибка при добавлении коллекции:', error);
+    }
+}
+
 export function AppFrame({ children }: AppFrameProps) {
     const demoProps = {
-        // bg: 'var(--mantine-color-blue-light)',
         h: 50,
         mt: 'md',
     };
+    const [inputValue, setInputValue] = useState('');
+    const [opened, { open, close }] = useDisclosure(false);
+    const { user, loading: userLoading } = useAuthContext();
+
+    const handleInputChange = (event: any) => {
+        setInputValue(event.target.value);
+    };
+
+    const handleAddBookshelf = async () => {
+        if (!userLoading) {
+            await FetchBookshelf(user, inputValue);
+        }
+        close();
+    };
 
     return (
-        <AppShell
-            header={{ height: 60 }}
-            // navbar={{ width: 90, breakpoint: 'sm', collapsed: { mobile: !opened } }}
-            padding=""
-        >
-            <AppShell.Header>
-                <Container px="0.3rem" size="76rem">
-                    <Group h="100%" px="" style={{ justifyContent: 'space-between' }}>
-                        <Button
-                            variant="transparent"
-                            component={Link}
-                            href="/"
-                            className={classes.customLabel}
-                        >
-                            Libra Keeper
-                        </Button>
+        <div>
+            <Modal opened={opened} onClose={close} title="New Collection">
+                <Input placeholder="Name" value={inputValue} onChange={handleInputChange} />
 
-                        {/* <Button
-                            ms="24px"
-                            variant="gradient"
-                            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-                            component={Link}
-                            href="/collections"
-                        >
-                            My collections
-                        </Button> */}
+                <Button
+                    size="28"
+                    onClick={handleAddBookshelf}
+                    fz="16"
+                    mt={10}
+                >
+                    Add
+                </Button>
+            </Modal>
 
-                        <div style={{ marginLeft: 'auto', display: 'flex', gap: '2rem' }}>
-                            <GoogleAuthButton></GoogleAuthButton>
-                            <ColorSchemeToggle />
-                        </div>
-                    </Group>
-                </Container>
-            </AppShell.Header>
+            <AppShell
+                header={{ height: 60 }}
+                padding=""
+            >
+                <AppShell.Header>
+                    <Container px="0.3rem" size="76rem">
+                        <Group h="100%" px="" style={{ justifyContent: 'space-between' }}>
+                            <Button
+                                variant="transparent"
+                                component={Link}
+                                href="/"
+                                className={classes.customLabel}
+                            >
+                                Libra Keeper
+                            </Button>
 
-            {/* <AppShell.Navbar p="md">
-                <Stack className={classes.navbarMain} justify="center" gap={3}>
-                    {links}
-                </Stack>
-                <div>
-                    <GoogleAuthButton></GoogleAuthButton>
-                </div>
-            </AppShell.Navbar> */}
-            <AppShell.Main>
-                <Container size="76rem" {...demoProps}>
-                    {children}
-                </Container>
-            </AppShell.Main>
-        </AppShell>
+                            <div style={{ marginLeft: 'auto', display: 'flex', gap: '2rem' }}>
+                                <Button onClick={open} className={classes.customButtton}>
+                                    +Bookshelf
+                                </Button>
+                                <GoogleAuthButton />
+                                <ColorSchemeToggle />
+                            </div>
+                        </Group>
+                    </Container>
+                </AppShell.Header>
+
+                <AppShell.Main>
+                    <Container size="76rem" {...demoProps}>
+                        {children}
+                    </Container>
+                </AppShell.Main>
+            </AppShell>
+        </div>
     );
 }
-
-// import { Center, Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
-// import { useState } from 'react';
-
-// import {
-//     IconHome2,
-//     IconGauge,
-//     IconDeviceDesktopAnalytics,
-//     IconFingerprint,
-//     IconCalendarStats,
-//     IconUser,
-//     IconSettings,
-//     IconLogout,
-//     IconSwitchHorizontal,
-// } from '@tabler/icons-react';
-// // import { MantineLogo } from '@mantinex/mantine-logo';
-// import classes from './AppFrame.module.css';
-
-// // import { useAuthContext } from '@/src/firebase/context';
-
-// interface AppFrameProps {
-//     children: React.ReactNode;
-// }
-
-// interface NavbarLinkProps {
-//     icon: typeof IconHome2;
-//     label: string;
-//     active?: boolean;
-//     onClick?: () => void;
-// }
-
-// function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
-//     return (
-//         <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
-//             <UnstyledButton
-//                 onClick={onClick}
-//                 className={classes.link}
-//                 data-active={active || undefined}
-//             >
-//                 <Icon style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
-//             </UnstyledButton>
-//         </Tooltip>
-//     );
-// }
-
-// const mockdata = [
-//     { icon: IconHome2, label: 'Home' },
-//     { icon: IconGauge, label: 'Dashboard' },
-//     { icon: IconDeviceDesktopAnalytics, label: 'Analytics' },
-//     { icon: IconCalendarStats, label: 'Releases' },
-//     { icon: IconUser, label: 'Account' },
-//     { icon: IconFingerprint, label: 'Security' },
-//     { icon: IconSettings, label: 'Settings' },
-// ];
-
-// export function AppFrame({ children }: AppFrameProps) {
-//     const [active, setActive] = useState(2);
-
-//     const links = mockdata.map((link, index) => (
-//         <NavbarLink
-//             {...link}
-//             key={link.label}
-//             active={index === active}
-//             onClick={() => setActive(index)}
-//         />
-//     ));
-
-//     return (
-//         <div className={classes.appFrame}>
-//             <nav className={classes.navbar}>
-//                 <Center>
-//                     {/* <MantineLogo type="mark" size={30} /> */}
-//                     <p>L</p>
-//                 </Center>
-
-//                 <div className={classes.navbarMain}>
-//                     <Stack justify="center" gap={0}>
-//                         {links}
-//                     </Stack>
-//                 </div>
-
-//                 <Stack justify="center" gap={0}>
-//                     <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
-//                     <NavbarLink icon={IconLogout} label="Logout" />
-//                 </Stack>
-//             </nav>
-
-//             <main className={classes.content}>
-//                 {children}
-//             </main>
-//         </div>
-//     );
-// }

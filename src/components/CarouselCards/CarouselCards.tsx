@@ -103,7 +103,7 @@ function CarouselCards({ bookshelf }: CarouselProps) {
     // }
 
     return (
-        <div>
+        <div style={{ marginBottom: '3rem' }}>
             <Title order={2} ms={10} mb="xs" fw="bold">
                 {bookshelf.name}
             </Title>

@@ -47,7 +47,7 @@ function CardBook({ id, cover_image, title, description }: Book) {
                     fw={500}
                     truncate="end"
                     component={Link}
-                    href={{ pathname: '/book', query: { q: id } }}
+                    href={{ pathname: `/book/${id}` }}
                     span
                     c="blue"
                     inherit
