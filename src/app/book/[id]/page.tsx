@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import { Card, Container, Grid, Image, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '@/src/firebase/context';
-import { Book } from '@/src/types/api';
+import { Book, Bookshelf } from '@/src/types/api';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -13,6 +13,8 @@ export default function SearchBar() {
 
     const { user, loading: userloading } = useAuthContext();
     const [book, setBooks] = useState<Book | null>(null);
+    const [bookshelf, setBookshelf] = useState<Bookshelf | null>(null);
+
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -36,6 +38,27 @@ export default function SearchBar() {
                 });
                 const data: Book = await res.json();
                 setBooks(data);
+
+                // получаем инфо о полке
+
+                // проверка что айди полки не пустай строка
+
+                if (!data.bookshelf_id) {
+                    setLoading(false);
+                    return;
+                }
+
+                const resBookshelf = await fetch(`${API_HOST}/bookshelves/${data.bookshelf_id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const dataBookshelf: Bookshelf = await resBookshelf.json();
+                setBookshelf(dataBookshelf);
+
+                console.log(dataBookshelf);
             } catch (error) {
                 console.error('Error fetching bookshelves:', error);
             } finally {
@@ -97,6 +120,19 @@ export default function SearchBar() {
                             <Grid.Col span={1}>
                                 <Text>{book?.created_at}</Text>
                             </Grid.Col>
+
+                            {/* {bookshelf && ( */}
+                            {/* <> */}
+                            <Grid.Col span={1}>
+                                <Text fw={700} size="lg">
+                                    Полка
+                                </Text>
+                            </Grid.Col>
+                            <Grid.Col span={1}>
+                                <Text>{bookshelf?.name || 'Книга не на полке'}</Text>
+                            </Grid.Col>
+                            {/* </> */}
+                            {/* )} */}
                         </Grid>
                     </Card>
                 </Grid.Col>
