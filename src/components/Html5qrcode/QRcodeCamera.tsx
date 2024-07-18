@@ -39,7 +39,7 @@ export function QRcodeCamera() {
             </div>
             <div className={classes.camera}>
                 <Input
-                    placeholder="Input component"
+                    placeholder="Your ISBN"
                     value={scanResult}
                     onChange={handleInputChange}
                 />
