@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { Bookshelf } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
 import CarouselCards from '../CarouselCards/CarouselCards';
+import AllBooks from './AllBooks';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 

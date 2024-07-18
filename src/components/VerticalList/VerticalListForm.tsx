@@ -2,7 +2,7 @@
 
 'use client';
 
-import { Text, Button, Stack, Card, Group, Image } from '@mantine/core';
+import { Text, Button, Stack, Card, Group, Image, AspectRatio } from '@mantine/core';
 import { useRef } from 'react';
 import Link from 'next/link';
 import classes from './VerticalListForm.module.css';
@@ -82,7 +82,10 @@ function BookCard({ book, isAdv, index }: BookCardProps) {
     return (
         <Card shadow="sm" padding={0} radius="md" withBorder style={{ width: '60%' }}>
             <Group wrap="nowrap" gap={0}>
-                <Image src={book.cover_image} style={{ width: '40%' }} />
+                <AspectRatio ratio={4 / 5} maw={300} mx="auto">
+                    <Image src={book.cover_image} />
+                </AspectRatio>
+                {/* <Image src={book.cover_image} style={{ width: '40%' }} /> */}
                 <Stack px="md" h="100%" style={{ width: '100%' }}>
                     <Group justify="space-between" mb="xs">
                         <Text fw={500}>{book.title}</Text>
