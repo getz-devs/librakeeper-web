@@ -5,6 +5,7 @@ import { Loader, Title } from '@mantine/core';
 import InfiniteScrollArea from './InfiniteList';
 import { Bookshelf, Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
+import AllBooks from '@/src/components/Collections/AllBooks';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -68,6 +69,7 @@ function CarouselCards({ bookshelf }: CarouselProps) {
 
     return (
         <div>
+            <AllBooks></AllBooks>
             <Title order={2} ms={10} mb="xs" fw="bold">
                 {bookshelf.name}
             </Title>
