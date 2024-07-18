@@ -69,7 +69,7 @@ export default function VerticalListSearch({
                     }
                 } catch (error) {
                     console.error('Error fetching books:', error);
-                    break; // Выход из цикла при ошибке
+                    break;
                 } finally {
                     setLoading(false);
                 }

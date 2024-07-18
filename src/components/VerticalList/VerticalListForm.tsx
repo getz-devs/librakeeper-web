@@ -11,6 +11,11 @@ import { useAuthContext } from '@/src/firebase/context';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
+const delay = (ms: number | undefined) =>
+    new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+
 async function onClickHandler(book: Book, user: any, isAdv?: boolean, index?: number) {
     if (isAdv) {
         try {
@@ -60,6 +65,9 @@ async function onClickHandler(book: Book, user: any, isAdv?: boolean, index?: nu
     } catch (error) {
         console.error('Ошибка при добавлении книги:', error);
     }
+
+    await delay(500);
+    window.location.href = '/';
 }
 
 interface BookCardProps {
@@ -90,8 +98,8 @@ function BookCard({ book, isAdv, index }: BookCardProps) {
                             fullWidth
                             mt="md"
                             radius="md"
-                            component={Link}
-                            href={{ pathname: '/' }}
+                            // component={Link}
+                            // href={{ pathname: '/' }}
                             style={{ width: '40%' }}
                             onClick={() => onClickHandler(book, user, isAdv, index)}
                         >
