@@ -4,7 +4,7 @@
 
 import { useState, useEffect } from 'react';
 
-import { Card, Stack, Image, Group, Text, Badge, Button } from '@mantine/core';
+import { Card, Stack, Image, Group, Text, Badge, Button, Loader } from '@mantine/core';
 import Link from 'next/link';
 import { Bookshelf } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
@@ -36,9 +36,11 @@ export default function AllBookshelvesPage() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                const data: Bookshelf[] = await res.json();
+                let data: Bookshelf[] = await res.json();
+                if (data === null) {
+                    data = [];
+                }
                 setBookshelves(data);
-                console.log(bookshelves);
             } catch (error) {
                 console.error('Error fetching bookshelves:', error);
             } finally {
@@ -48,7 +50,7 @@ export default function AllBookshelvesPage() {
 
         fetchBookshelves();
     }, [user]);
-
+    console.log(bookshelves);
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -102,9 +104,16 @@ export default function AllBookshelvesPage() {
         // </div>
 
         <div>
-            {bookshelves.map((shelf) => (
-                <CarouselCards key={shelf.id} bookshelf={shelf}></CarouselCards>
-            ))}
+            {loading ? (
+                <Loader size="md" />
+            ) : bookshelves ? (
+                bookshelves.map((shelf) => (
+                    <CarouselCards key={shelf.id} bookshelf={shelf}></CarouselCards>
+                ))
+            ) : (
+                <div>No collection found</div>
+            )}
+
         </div>
     );
 }
