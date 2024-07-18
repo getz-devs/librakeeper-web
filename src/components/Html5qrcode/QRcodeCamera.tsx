@@ -23,6 +23,8 @@ export function QRcodeCamera() {
         setScanResult(event.target.value);
     };
 
+    const removeHyphens = (input: string) => input.replace(/-/g, '');
+
     return (
         <div>
             <div className={classes.camera}>
@@ -49,7 +51,7 @@ export function QRcodeCamera() {
                         // href="/search"
                         // eslint-disable-next-line no-template-curly-in-string
                         // href={`/search?q=${scanResult}`}
-                        href={{ pathname: '/search', query: { q: scanResult } }}
+                        href={{ pathname: '/search', query: { q: removeHyphens(scanResult) } }}
                     >
                         Search
                     </Button>

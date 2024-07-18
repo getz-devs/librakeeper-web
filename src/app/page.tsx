@@ -1,10 +1,10 @@
-import Carousel from '@/src/components/Carousel/Carousel';
-import AddButton from '../components/AddButton/AddButton';
+import AddButton from '@/src/components/AddButton/AddButton';
+import Collections from '../components/Collections/Collections';
 
 export default function HomePage() {
     return (
         <>
-            <Carousel />
+            <Collections />
             <AddButton />
             {/* <ColorSchemeToggle /> */}
         </>
