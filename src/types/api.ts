@@ -39,10 +39,9 @@ export interface Book {
 export interface BookUpdate {
     title?: string;
     author?: string;
-    isbn?: string;
     description?: string;
     cover_image?: string;
-    updated_at: string;
+    bookshelf_id?: string;
 }
 
 export interface BookInShop {
