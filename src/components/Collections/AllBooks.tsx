@@ -106,7 +106,7 @@ export default function AllBookshelvesPage() {
     }
 
     return (
-        <div style={{ marginBottom: '2rem' }}>
+        <div style={{ marginBottom: '3rem', marginTop: '2rem' }}>
             <Title order={2} ms={10} mb="xs" fw="bold">
                 All my books
             </Title>
