@@ -4,6 +4,7 @@
 
 import React, { useEffect, useState } from 'react';
 // import { useSearchParams } from 'next/navigation';
+import { Loader } from '@mantine/core';
 import ListOfCards from './VerticalListForm';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
@@ -51,9 +52,12 @@ export default function VerticalListSearch({
                             Authorization: `Bearer ${token}`,
                         },
                     });
-                    const data = await res.json();
+                    let data = await res.json();
                     status = data.status;
                     if (status === 0) {
+                        if (data === null) {
+                            data = [];
+                        }
                         setBooks(data.books);
                     }
                 } catch (error) {
@@ -81,7 +85,16 @@ export default function VerticalListSearch({
     return (
         <div>
             <div> Search by ISBN: {ISBN} </div>
-            <ListOfCards items={books} />
+
+            {loading ? (
+                <Loader size="md" />
+            ) : books ? (
+                <ListOfCards items={books} />
+            ) : (
+                <div>No books found</div>
+            )}
+
+            {/* <ListOfCards items={books} /> */}
         </div>
     );
 }
