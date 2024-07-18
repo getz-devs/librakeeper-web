@@ -2,7 +2,7 @@
 
 'use client';
 
-import { Text, Button, Stack, Card, Group, Image } from '@mantine/core';
+import { Text, Button, Stack, Card, Group, Image, AspectRatio } from '@mantine/core';
 import { useRef } from 'react';
 import Link from 'next/link';
 import classes from './VerticalListForm.module.css';
@@ -10,6 +10,11 @@ import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
+
+const delay = (ms: number | undefined) =>
+    new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
 
 async function onClickHandler(book: Book, user: any, isAdv?: boolean, index?: number) {
     if (isAdv) {
@@ -60,6 +65,9 @@ async function onClickHandler(book: Book, user: any, isAdv?: boolean, index?: nu
     } catch (error) {
         console.error('Ошибка при добавлении книги:', error);
     }
+
+    await delay(500);
+    window.location.href = '/';
 }
 
 interface BookCardProps {
@@ -74,7 +82,10 @@ function BookCard({ book, isAdv, index }: BookCardProps) {
     return (
         <Card shadow="sm" padding={0} radius="md" withBorder style={{ width: '60%' }}>
             <Group wrap="nowrap" gap={0}>
-                <Image src={book.cover_image} style={{ width: '40%' }} />
+                <AspectRatio ratio={4 / 5} maw={300} mx="auto">
+                    <Image src={book.cover_image} />
+                </AspectRatio>
+                {/* <Image src={book.cover_image} style={{ width: '40%' }} /> */}
                 <Stack px="md" h="100%" style={{ width: '100%' }}>
                     <Group justify="space-between" mb="xs">
                         <Text fw={500}>{book.title}</Text>
@@ -90,8 +101,8 @@ function BookCard({ book, isAdv, index }: BookCardProps) {
                             fullWidth
                             mt="md"
                             radius="md"
-                            component={Link}
-                            href={{ pathname: '/' }}
+                            // component={Link}
+                            // href={{ pathname: '/' }}
                             style={{ width: '40%' }}
                             onClick={() => onClickHandler(book, user, isAdv, index)}
                         >
