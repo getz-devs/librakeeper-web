@@ -1,11 +1,12 @@
 'use client';
 
-import { useParams } from 'next/navigation';
+import { redirect, useParams } from 'next/navigation';
 import {
     Button,
     Card,
     Container,
     Grid,
+    Select,
     Space,
     Stack,
     Text,
@@ -53,7 +54,7 @@ export default function SearchBar() {
 
                 // получаем инфо о всех полках
 
-                const resBookshelves = await fetch(`${API_HOST}/bookshelves`, {
+                const resBookshelves = await fetch(`${API_HOST}/bookshelves/`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -61,8 +62,12 @@ export default function SearchBar() {
                     },
                 });
 
-                const dataBookshelves: Bookshelf[] = await resBookshelves.json();
-                setBookshelves(dataBookshelves);
+                const dataBookshelves: Bookshelf[] | null = await resBookshelves.json();
+                if (dataBookshelves != null) {
+                    console.log('resBookshelves.json() != null');
+                    console.log(resBookshelves.json());
+                    setBookshelves(dataBookshelves);
+                }
 
                 // получаем инфо о полке
 
@@ -103,11 +108,44 @@ export default function SearchBar() {
             cover_image: '',
             bookshelf_id: '',
         },
-        // validate: {
-        //     title: (value) => (value && value.length > 0 ? null : 'Title is required'),
-        //     author: (value) => (value && value.length > 0 ? null : 'Author is required'),
-        // },
     });
+
+    const handleSubmit = async (values: BookUpdate) => {
+        // Filter out empty fields
+        const nonEmptyFields = Object.fromEntries(
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            Object.entries(values).filter(([_, v]) => v !== '' && v !== undefined)
+        );
+
+        // If no non-empty fields, do not make the request
+        if (Object.keys(nonEmptyFields).length === 0) {
+            console.log('No non-empty fields to submit');
+            return;
+        }
+
+        try {
+            const token = await user?.getIdToken();
+
+            // Make the request
+            const response = await fetch(`${API_HOST}/books/${book?.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(nonEmptyFields),
+            });
+
+            if (response.ok) {
+                // Redirect to the homepage after successful submission
+                redirect('/');
+            } else {
+                console.error('Failed to submit form:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+        }
+    };
 
     // console.log(bookshelves);
     if (loading) {
@@ -117,12 +155,6 @@ export default function SearchBar() {
     if (book === null) {
         return <div>Book not foung</div>;
     }
-
-    // Handle form submission
-    const handleSubmit = (values: BookUpdate) => {
-        console.log('Form submitted:', values);
-        // Handle form submission logic here
-    };
 
     return (
         <Container size="sm">
@@ -208,10 +240,20 @@ export default function SearchBar() {
                             placeholder="Enter cover image URL"
                             {...form.getInputProps('cover_image')}
                         />
-                        <TextInput
+                        {/* <TextInput
                             label="Bookshelf ID"
                             placeholder="Enter bookshelf ID"
                             {...form.getInputProps('bookshelf_id')}
+                        /> */}
+                        <Select
+                            label="Bookshelf"
+                            placeholder="Pick a bookshelf"
+                            data={bookshelves.map((shelf) => ({
+                                value: shelf.id,
+                                label: shelf.name,
+                            }))}
+                            {...form.getInputProps('bookshelf_id')}
+                            clearable
                         />
                         <Button type="submit" mt="md">
                             Update Book
