@@ -14,7 +14,7 @@ function LoginButton() {
             loading={loading}
             loaderProps={{ type: 'dots' }}
         >
-            {user ? 'Log Out' : 'Log In'}
+            {user ? 'Log out' : 'Log in'}
         </Button>
     );
 }

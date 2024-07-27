@@ -5,6 +5,7 @@ import { Loader, Title } from '@mantine/core';
 import InfiniteScrollArea from './InfiniteList';
 import { Bookshelf, Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
+import { ErrorCard } from '../ErrorCard/ErrorCard';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -100,7 +101,7 @@ function CarouselCards({ bookshelf }: CarouselProps) {
                     loader={<Loader size="md" />}
                 />
             ) : (
-                <div>No books found</div>
+                <ErrorCard error="No books found" desc="No books found in this bookshelf" />
             )}
         </div>
     );

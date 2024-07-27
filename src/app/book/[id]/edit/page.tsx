@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { useAuthContext } from '@/src/firebase/context';
 import { Book, Bookshelf, BookUpdate } from '@/src/types/api';
+import { Loading } from '@/src/components/Loading/Loading';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -147,7 +148,7 @@ export default function SearchBar() {
 
     // console.log(bookshelves);
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     if (book === null) {

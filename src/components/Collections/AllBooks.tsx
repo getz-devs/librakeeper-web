@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react';
 import { Loader, Title } from '@mantine/core';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
-import InfiniteScrollArea from '../CarouselCards/InfiniteList';
+import InfiniteScrollArea from '@/src/components/CarouselCards/InfiniteList';
+import { ErrorCard } from '@/src/components/ErrorCard/ErrorCard';
+import { Loading } from '@/src/components/Loading/Loading';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -103,15 +105,15 @@ export default function AllBookshelvesPage() {
     };
 
     if (!userloading && !user) {
-        return <div>Please sign in to view your data</div>;
+        return <ErrorCard error="User not authorized" desc="Please log in to view your data" />;
     }
 
     if (loading) {
-        return <div>Loading User Books...</div>;
+        return <Loading />;
     }
 
     if (books === undefined) {
-        return <div>No bookshelves found</div>;
+        return <ErrorCard error="No books found" desc="No books found for this user" />;
     }
 
     return (
@@ -128,7 +130,7 @@ export default function AllBookshelvesPage() {
                     loader={<Loader size="md" />}
                 />
             ) : (
-                <div>No books found</div>
+                <ErrorCard error="No books found" desc="No books found for this user" />
             )}
         </div>
     );

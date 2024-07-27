@@ -3,10 +3,11 @@
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import VerticalListSearch from '@/src/components/VerticalList/VerticalListSearch';
+import { Loading } from '@/src/components/Loading/Loading';
 
 export default function SearchBar() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
             <SearchBarContent />
         </Suspense>
     );

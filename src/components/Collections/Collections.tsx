@@ -6,6 +6,7 @@ import { Loader } from '@mantine/core';
 import { Bookshelf } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
 import CarouselCards from '../CarouselCards/CarouselCards';
+import { ErrorCard } from '../ErrorCard/ErrorCard';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -48,16 +49,17 @@ export default function AllBookshelvesPage() {
         fetchBookshelves();
     }, [user]);
 
-    if (!userloading && !user) {
+    if (loading || (!userloading && !user)) {
         return <></>;
     }
 
-    if (loading) {
-        return <div>Loading Bookshelves...</div>;
-    }
-
     if (bookshelves === undefined) {
-        return <div>No bookshelves found</div>;
+        return (
+            <ErrorCard
+                error="No bookshelves found"
+                desc="No bookshelves found for the current user"
+            />
+        );
     }
 
     return (
@@ -69,7 +71,10 @@ export default function AllBookshelvesPage() {
                     <CarouselCards key={shelf.id} bookshelf={shelf}></CarouselCards>
                 ))
             ) : (
-                <div>No collection found</div>
+                <ErrorCard
+                    error="No bookshelves found"
+                    desc="No bookshelves found for the current user"
+                />
             )}
         </div>
     );

@@ -5,6 +5,7 @@ import { Card, Group, Text, Button } from '@mantine/core';
 import Link from 'next/link';
 import { Bookshelf } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
+import { Loading } from '@/src/components/Loading/Loading';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -37,7 +38,7 @@ export default function AllBookshelvesPage() {
     }, [user]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     return (

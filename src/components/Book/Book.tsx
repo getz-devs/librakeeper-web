@@ -4,10 +4,11 @@ import { Title, Text, Paper } from '@mantine/core';
 import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import classes from './Book.module.css';
+import { Loading } from '../Loading/Loading';
 
 export default function Book() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
             <Card />
         </Suspense>
     );

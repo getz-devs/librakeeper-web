@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import ListOfCards from './VerticalListForm';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
+import { Loading } from '@/src/components/Loading/Loading';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -42,7 +43,7 @@ export default function BooksByBookshelfPage(params: VerticalListProps) {
     }, [user, bookshelfId]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     return (

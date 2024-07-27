@@ -5,6 +5,8 @@ import { Card, Container, Grid, Image, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '@/src/firebase/context';
 import { Book, Bookshelf } from '@/src/types/api';
+import { Loading } from '@/src/components/Loading/Loading';
+import { ErrorCard } from '@/src/components/ErrorCard/ErrorCard';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -69,11 +71,11 @@ export default function SearchBar() {
     }, [user]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     if (book === null) {
-        return <div>Book not foung</div>;
+        return <ErrorCard error="Book not found" desc="Book not found for this id" />;
     }
 
     return (

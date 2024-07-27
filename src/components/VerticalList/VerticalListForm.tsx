@@ -1,6 +1,6 @@
 'use client';
 
-import { Text, Button, Stack, Card, Group, Image, AspectRatio } from '@mantine/core';
+import { Text, Button, Stack, Card, Image, AspectRatio } from '@mantine/core';
 import { useRef } from 'react';
 import classes from './VerticalListForm.module.css';
 import { Book } from '@/src/types/api';
@@ -77,17 +77,17 @@ function BookCard({ book, isAdv, index }: BookCardProps) {
     const { user } = useAuthContext();
 
     return (
-        <Card shadow="sm" padding={0} radius="md" withBorder style={{ width: '60%' }}>
-            <Group wrap="nowrap" gap={0}>
+        <Card shadow="sm" padding={0} radius="md" withBorder>
+            <Stack gap={0}>
                 <AspectRatio ratio={4 / 5} maw={300} mx="auto">
-                    <Image src={book.cover_image} />
+                    <Image
+                        src={book.cover_image}
+                        fallbackSrc="https://placehold.co/400x500?text=No%20cover"
+                    />
                 </AspectRatio>
-                {/* <Image src={book.cover_image} style={{ width: '40%' }} /> */}
-                <Stack px="md" h="100%" style={{ width: '100%' }}>
-                    <Group justify="space-between" mb="xs">
-                        <Text fw={500}>{book.title}</Text>
-                    </Group>
 
+                <Stack px="md" h="100%">
+                    <Text fw={500}>{book.title}</Text>
                     <Text size="sm" c="dimmed">
                         {book.description}
                     </Text>
@@ -107,7 +107,7 @@ function BookCard({ book, isAdv, index }: BookCardProps) {
                         </Button>
                     </Stack>
                 </Stack>
-            </Group>
+            </Stack>
         </Card>
     );
 }

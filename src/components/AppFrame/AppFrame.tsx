@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { AppShell, Group, Button, Container, Modal, Input, Flex, Text } from '@mantine/core';
+import { AppShell, Group, Button, Container, Modal, Input, Flex } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { ColorSchemeToggle } from '@/src/components/ColorSchemeToggle/ColorSchemeToggle';
