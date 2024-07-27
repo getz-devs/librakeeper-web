@@ -70,7 +70,6 @@ export default function SearchBar() {
                 }
 
                 // получаем инфо о полке
-
                 // проверка что айди полки не пустай строка
 
                 if (!data.bookshelf_id) {
@@ -158,13 +157,10 @@ export default function SearchBar() {
     return (
         <Container size="sm">
             <Card shadow="sm" padding="lg" radius="md" withBorder>
-                {/* <Card.Section> */}
                 <Text fw={700} size="lg">
                     Текущие значения
                 </Text>
                 <Space h="md" />
-                {/* </Card.Section> */}
-                {/* <Card.Section> */}
                 <Grid columns={2}>
                     <Grid.Col span={1}>
                         <Text fw={700} size="lg">
@@ -239,11 +235,6 @@ export default function SearchBar() {
                             placeholder="Enter cover image URL"
                             {...form.getInputProps('cover_image')}
                         />
-                        {/* <TextInput
-                            label="Bookshelf ID"
-                            placeholder="Enter bookshelf ID"
-                            {...form.getInputProps('bookshelf_id')}
-                        /> */}
                         <Select
                             label="Bookshelf"
                             placeholder="Pick a bookshelf"

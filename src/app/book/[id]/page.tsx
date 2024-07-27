@@ -40,7 +40,6 @@ export default function SearchBar() {
                 setBooks(data);
 
                 // получаем инфо о полке
-
                 // проверка что айди полки не пустай строка
 
                 if (!data.bookshelf_id) {
@@ -68,7 +67,7 @@ export default function SearchBar() {
 
         fetchBookshelves();
     }, [user]);
-    // console.log(bookshelves);
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -121,8 +120,6 @@ export default function SearchBar() {
                                 <Text>{book?.created_at}</Text>
                             </Grid.Col>
 
-                            {/* {bookshelf && ( */}
-                            {/* <> */}
                             <Grid.Col span={1}>
                                 <Text fw={700} size="lg">
                                     Полка
@@ -131,8 +128,6 @@ export default function SearchBar() {
                             <Grid.Col span={1}>
                                 <Text>{bookshelf?.name || 'Книга не на полке'}</Text>
                             </Grid.Col>
-                            {/* </> */}
-                            {/* )} */}
                         </Grid>
                     </Card>
                 </Grid.Col>

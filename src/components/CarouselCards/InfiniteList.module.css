@@ -1,6 +1,4 @@
-.card {
-    /* height: 440px;
-    width: 262px; */
+.card {    
     height: 360px;
     width: 216px;
     display: flex;
@@ -15,7 +13,6 @@
     font-weight: 900;
     color: var(--mantine-color-white);
     line-height: 1.2;
-    /* font-size: 32px; */
     font-size: 26px;
     margin-top: var(--mantine-spacing-xs);
     cursor: default;
