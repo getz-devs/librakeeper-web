@@ -1,31 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ReactNode, SetStateAction, useEffect, useRef, useState } from 'react';
-import {
-    Image,
-    ScrollArea,
-    Box,
-    Text,
-    Button,
-    Paper,
-    Title,
-    Card,
-    Group,
-    Badge,
-    AspectRatio,
-} from '@mantine/core';
+import { Image, ScrollArea, Box, Text, Button, Card, Group, AspectRatio } from '@mantine/core';
 import Link from 'next/link';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import { Book } from '@/src/types/api';
 
-// import { useMediaQuery } from '@mantine/hooks';
 import classes from './InfiniteList.module.css';
-
-// interface Item {
-//     id: string;
-//     image: string;
-//     title: string;
-//     text: string;
-// }
 
 interface InfiniteScrollAreaProps {
     items: Book[];
@@ -59,37 +38,8 @@ function CardBook({ id, cover_image, title, description }: Book) {
             <Text size="sm" c="dimmed" truncate="end">
                 {description}
             </Text>
-
-            {/* <Button color="blue" fullWidth mt="md" radius="md">
-                Go to...
-            </Button> */}
         </Card>
     );
-    // return (
-    //     <Paper
-    //         shadow="md"
-    //         p="xl"
-    //         radius="md"
-    //         style={{
-    //             backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(${image})`,
-    //         }}
-    //         w="10rem"
-    //         h="16rem"
-    //         // className={classes.card}
-    //     >
-    //         <div>
-    //             <Title order={3} className={classes.title}>
-    //                 {title}
-    //             </Title>
-    //             <Text className={classes.category} size="xs">
-    //                 {text}
-    //             </Text>
-    //         </div>
-    //         <Button variant="white" color="dark" component={Link} href={{ pathname: '/book', query: { q: id } }}>
-    //             Read
-    //         </Button>
-    //     </Paper>
-    // );
 }
 
 const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
@@ -163,15 +113,10 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
         }
     };
 
-    // const theme = useMantineTheme();
-    // const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
     const slides = items.map((item) => (
         <Box key={item.id} className={classes.slide} style={{ margin: '0 10px' }}>
             <CardBook {...item} />
         </Box>
-        // <Carousel.Slide key={item.id} style={{ margin: '0 10px' }}>
-        //     <Card {...item} />
-        // </Carousel.Slide>
     ));
 
     return (
@@ -242,22 +187,6 @@ const InfiniteScrollArea: React.FC<InfiniteScrollAreaProps> = ({
             </Button>
         </div>
     );
-
-    // return (
-    //     <Carousel
-    //         slideSize={{ base: '100%', sm: '50%' }}
-    //         slideGap={{ base: 'xl', sm: 2 }}
-    //         align="start"
-    //         slidesToScroll={mobile ? 1 : 2}
-    //     >
-    //         <div style={{ display: 'flex', whiteSpace: 'nowrap' }}>{slides}</div>
-    //         {loading && (
-    //             <Box style={{ display: 'flex', justifyContent: 'center', padding: '4px' }}>
-    //                 {loader}
-    //             </Box>
-    //         )}
-    //     </Carousel>
-    // );
 };
 
 export default InfiniteScrollArea;

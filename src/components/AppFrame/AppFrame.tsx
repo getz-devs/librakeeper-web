@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 'use client';
 
 import Link from 'next/link';
@@ -24,14 +22,6 @@ async function FetchBookshelf(user: any, shelfName: string) {
         return;
     }
 
-    // const bookshelf: Bookshelf = {
-    //     name: shelfName,
-    //     id: '',
-    //     user_id: user?.uid || '',
-    //     created_at: '',
-    //     updated_at: '',
-    // };
-
     const bookshelf: Bookshelf = {} as Bookshelf;
     bookshelf.name = shelfName;
     bookshelf.user_id = user.uid;
@@ -41,17 +31,14 @@ async function FetchBookshelf(user: any, shelfName: string) {
     try {
         const token = await user?.getIdToken();
 
-        const res = await fetch(
-            `${API_HOST}/bookshelves/add`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(bookshelf),
-            }
-        );
+        const res = await fetch(`${API_HOST}/bookshelves/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(bookshelf),
+        });
 
         if (!res.ok) {
             throw new Error('Ошибка при добавлении коллекции');
@@ -89,20 +76,12 @@ export function AppFrame({ children }: AppFrameProps) {
             <Modal opened={opened} onClose={close} title="New Collection">
                 <Input placeholder="Name" value={inputValue} onChange={handleInputChange} />
 
-                <Button
-                    size="28"
-                    onClick={handleAddBookshelf}
-                    fz="16"
-                    mt={10}
-                >
+                <Button size="28" onClick={handleAddBookshelf} fz="16" mt={10}>
                     Add
                 </Button>
             </Modal>
 
-            <AppShell
-                header={{ height: 60 }}
-                padding=""
-            >
+            <AppShell header={{ height: 60 }} padding="">
                 <AppShell.Header>
                     <Container px="0.3rem" size="76rem">
                         <Group h="100%" px="" style={{ justifyContent: 'space-between' }}>

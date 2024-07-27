@@ -1,5 +1,3 @@
-/* eslint-disable no-async-promise-executor */
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -52,55 +50,41 @@ function CarouselCards({ bookshelf }: CarouselProps) {
         fetchBooks();
     }, [user, bookshelf.id]);
 
-    // const fetchMoreData = () =>
-    //     new Promise<void>((resolve) => {
-    //         setTimeout(() => {
-    //             setItems((prevItems) => [
-    //                 ...prevItems,
-    //                 ...Array.from({ length: 20 }, (_, i) => ({
-    //                     ...prevItems[i % prevItems.length],
-    //                     id: `${prevItems.length + i + 1}`,
-    //                 })),
-    //             ]);
-    //             resolve();
-    //         }, 1500);
-    //     });
+    const fetchMoreData = (): Promise<void> => {
+        if (!hasMore) {
+            return Promise.resolve(); // Always return a Promise
+        }
 
-    const fetchMoreData = () =>
-        new Promise<void>(async (resolve) => {
-            if (!hasMore) {
-                resolve();
-                return;
-            }
-            try {
-                const token = await user?.getIdToken();
-                const res = await fetch(`${API_HOST}/books/bookshelf/${bookshelf.id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                let data: Book[] = await res.json();
-                if (data === null || data.length === 0) {
-                    setHasMore(false);
-                    data = [];
-                    resolve();
-                    return;
-                }
+        if (!user) {
+            return Promise.resolve(); // Handle cases where user is undefined
+        }
 
-                setItems((prevItems) => [...prevItems, ...data]);
+        return user.getIdToken().then((token) =>
+            fetch(`${API_HOST}/books/bookshelf/${bookshelf.id}?page=${page}&limit=10`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then((res) => res.json())
+                .then((data: Book[]) => {
+                    if (!data || data.length === 0) {
+                        setHasMore(false);
+                        return;
+                    }
 
-                setPage(page + 1);
-            } catch (error) {
-                console.error('Error fetching more books:', error);
-            }
-            resolve();
-        });
+                    // Update the state with new books
+                    setItems((prevItems) => [...prevItems, ...data]);
 
-    // if (items === undefined || items === null) {
-    //     return <div>No books found</div>;
-    // }
+                    // Increment the page number for the next request
+                    setPage((prevPage) => prevPage + 1);
+                })
+                .catch((error) => {
+                    console.error('Error fetching more books:', error);
+                })
+        );
+    };
 
     return (
         <div style={{ marginBottom: '3rem' }}>

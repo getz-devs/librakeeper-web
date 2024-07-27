@@ -10,11 +10,8 @@ export function QRcodeCamera() {
     const [scanResult, setScanResult] = useState('');
     const [scannerKey, setScannerKey] = useState(Date.now());
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onNewScanResult = (decodedText: any, decodedResult: any) => {
-        // handle decoded results here
+    const onNewScanResult = (decodedText: any) => {
         console.log(`Scan result: ${decodedText}`);
-        // alert(`Scan result: ${decodedText}`);
         setScanResult(decodedText);
         setScannerKey(Date.now());
     };
@@ -38,19 +35,12 @@ export function QRcodeCamera() {
                 />
             </div>
             <div className={classes.camera}>
-                <Input
-                    placeholder="Your ISBN"
-                    value={scanResult}
-                    onChange={handleInputChange}
-                />
+                <Input placeholder="Your ISBN" value={scanResult} onChange={handleInputChange} />
                 <div className={classes.customButton}>
                     <Button
                         className={classes.customText}
                         size="42"
                         component={Link}
-                        // href="/search"
-                        // eslint-disable-next-line no-template-curly-in-string
-                        // href={`/search?q=${scanResult}`}
                         href={{ pathname: '/search', query: { q: removeHyphens(scanResult) } }}
                     >
                         Search

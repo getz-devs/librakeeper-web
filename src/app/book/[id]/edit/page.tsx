@@ -113,8 +113,7 @@ export default function SearchBar() {
     const handleSubmit = async (values: BookUpdate) => {
         // Filter out empty fields
         const nonEmptyFields = Object.fromEntries(
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            Object.entries(values).filter(([_, v]) => v !== '' && v !== undefined)
+            Object.entries(values).filter(([, v]) => v !== '' && v !== undefined)
         );
 
         // If no non-empty fields, do not make the request

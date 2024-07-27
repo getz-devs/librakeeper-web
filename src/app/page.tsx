@@ -8,7 +8,6 @@ export default function HomePage() {
             <AllBooks />
             <Collections />
             <AddButton />
-            {/* <ColorSchemeToggle /> */}
         </>
     );
 }

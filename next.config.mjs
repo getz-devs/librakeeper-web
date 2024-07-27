@@ -6,6 +6,10 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 export default withBundleAnalyzer({
     reactStrictMode: false,
+    compiler: {
+        // Remove console logs only in production, excluding error logs
+        removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error"] } : false
+    },
     eslint: {
         ignoreDuringBuilds: true,
     },
