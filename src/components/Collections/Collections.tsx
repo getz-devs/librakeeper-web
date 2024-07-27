@@ -51,9 +51,13 @@ export default function AllBookshelvesPage() {
 
         fetchBookshelves();
     }, [user]);
-    console.log(bookshelves);
+
+    if (!userloading && !user) {
+        return <></>;
+    }
+
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>Loading Bookshelves...</div>;
     }
 
     if (bookshelves === undefined) {

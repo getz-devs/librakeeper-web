@@ -94,8 +94,12 @@ export default function AllBookshelvesPage() {
             resolve();
         });
 
+    if (!userloading && !user) {
+        return <div>Please sign in to view your data</div>;
+    }
+
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>Loading User Books...</div>;
     }
 
     if (books === undefined) {
