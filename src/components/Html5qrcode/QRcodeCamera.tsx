@@ -39,6 +39,7 @@ export function QRcodeCamera() {
                 <div className={classes.customButton}>
                     <Button
                         className={classes.customText}
+                        variant="light"
                         size="42"
                         component={Link}
                         href={{ pathname: '/search', query: { q: removeHyphens(scanResult) } }}

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { AppShell, Group, Button, Container, Modal, Input } from '@mantine/core';
+import { AppShell, Group, Button, Container, Modal, Input, Flex, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { ColorSchemeToggle } from '@/src/components/ColorSchemeToggle/ColorSchemeToggle';
@@ -83,7 +83,7 @@ export function AppFrame({ children }: AppFrameProps) {
 
             <AppShell header={{ height: 60 }} padding="">
                 <AppShell.Header>
-                    <Container px="0.3rem" size="76rem">
+                    <Container h="100%">
                         <Group h="100%" px="" style={{ justifyContent: 'space-between' }}>
                             <Button
                                 variant="transparent"
@@ -91,16 +91,24 @@ export function AppFrame({ children }: AppFrameProps) {
                                 href="/"
                                 className={classes.customLabel}
                             >
-                                Libra Keeper
+                                <div className="mantine-visible-from-xs">Libra Keeper</div>
+                                <div className="mantine-hidden-from-xs">Libra</div>
                             </Button>
 
-                            <div style={{ marginLeft: 'auto', display: 'flex', gap: '2rem' }}>
-                                <Button onClick={open} className={classes.customButtton}>
-                                    +Bookshelf
+                            <Flex
+                                h="100%"
+                                gap={{ base: 'xs', sm: 'md' }}
+                                justify="flex-end"
+                                align="center"
+                                direction="row"
+                                wrap="wrap"
+                            >
+                                <Button variant="light" onClick={open}>
+                                    Shelf +
                                 </Button>
                                 <GoogleAuthButton />
                                 <ColorSchemeToggle />
-                            </div>
+                            </Flex>
                         </Group>
                     </Container>
                 </AppShell.Header>
