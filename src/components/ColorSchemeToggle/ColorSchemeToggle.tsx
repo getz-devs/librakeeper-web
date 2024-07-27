@@ -1,7 +1,6 @@
 'use client';
 
 import cx from 'clsx';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ActionIcon, Group, useMantineColorScheme, useComputedColorScheme } from '@mantine/core';
 import { IconSun, IconMoon } from '@tabler/icons-react';
 import classes from './ActionToggle.module.css';
@@ -22,10 +21,5 @@ export function ColorSchemeToggle() {
                 <IconMoon className={cx(classes.icon, classes.dark)} stroke={1.5} />
             </ActionIcon>
         </Group>
-        // <Group justify="center">
-        //     <Button onClick={() => setColorScheme('light')}>Light</Button>
-        //     <Button onClick={() => setColorScheme('dark')}>Dark</Button>
-        //     <Button onClick={() => setColorScheme('auto')}>Auto</Button>
-        // </Group>
     );
 }

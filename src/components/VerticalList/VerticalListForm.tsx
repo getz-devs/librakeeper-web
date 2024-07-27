@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 'use client';
 
 import { Text, Button, Stack, Card, Group, Image, AspectRatio } from '@mantine/core';
 import { useRef } from 'react';
-import Link from 'next/link';
 import classes from './VerticalListForm.module.css';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';

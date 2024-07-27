@@ -1,9 +1,6 @@
 'use client';
 
-/* eslint-disable arrow-body-style */
-
 import React, { useEffect, useState } from 'react';
-// import { useSearchParams } from 'next/navigation';
 import { Loader } from '@mantine/core';
 import ListOfCards from './VerticalListForm';
 import { Book } from '@/src/types/api';
@@ -16,7 +13,6 @@ const delay = (ms: number | undefined) =>
         setTimeout(resolve, ms);
     });
 
-// eslint-disable-next-line max-len
 export default function VerticalListSearch({
     ISBN,
     isAdv,
@@ -24,10 +20,6 @@ export default function VerticalListSearch({
     ISBN: string | null;
     isAdv?: boolean;
 }) {
-    // const searchParams = useSearchParams();
-    // const bookshelfId = searchParams.get('q');
-    // const { ISBN } = params;
-
     const { user } = useAuthContext();
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState<boolean>(true);

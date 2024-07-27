@@ -18,8 +18,6 @@ function SearchBarContent() {
     const searchParams = useSearchParams();
     const search = searchParams.get('q');
 
-    // URL -> `/dashboard?search=my-project`
-    // `search` -> 'my-project'
     return (
         <div>
             <div>
