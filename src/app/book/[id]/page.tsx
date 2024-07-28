@@ -1,8 +1,9 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import { Card, Container, Grid, Image, Text } from '@mantine/core';
+import { Button, Card, Container, Grid, Image, SimpleGrid, Stack, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useAuthContext } from '@/src/firebase/context';
 import { Book, Bookshelf } from '@/src/types/api';
 import { Loading } from '@/src/components/Loading/Loading';
@@ -80,13 +81,11 @@ export default function SearchBar() {
 
     return (
         <Container size="md">
-            <Grid>
-                <Grid.Col span={6}>
-                    <Card shadow="sm" padding={0} radius="md">
-                        <Image src={book?.cover_image} alt="Book Cover" />
-                    </Card>
-                </Grid.Col>
-                <Grid.Col span={6}>
+            <SimpleGrid cols={{ base: 1, sm: 2 }}>
+                <Card shadow="sm" padding={0} radius="md">
+                    <Image src={book?.cover_image} alt="Book Cover" />
+                </Card>
+                <Stack gap="md">
                     <Card shadow="sm" padding="lg" radius="md" withBorder>
                         <Grid columns={2}>
                             <Grid.Col span={1}>
@@ -111,7 +110,7 @@ export default function SearchBar() {
                                 </Text>
                             </Grid.Col>
                             <Grid.Col span={1}>
-                                <Text>{book?.description}</Text>
+                                <Text>{book?.description || 'Описание отсутствует'}</Text>
                             </Grid.Col>
                             <Grid.Col span={1}>
                                 <Text fw={700} size="lg">
@@ -132,8 +131,17 @@ export default function SearchBar() {
                             </Grid.Col>
                         </Grid>
                     </Card>
-                </Grid.Col>
-            </Grid>
+                    <Button
+                        component={Link}
+                        href={`/book/${id}/edit`}
+                        color="blue"
+                        fullWidth
+                        radius="md"
+                    >
+                        Edit Book
+                    </Button>
+                </Stack>
+            </SimpleGrid>
         </Container>
     );
 }

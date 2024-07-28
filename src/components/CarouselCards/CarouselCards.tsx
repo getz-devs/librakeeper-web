@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Loader, Title } from '@mantine/core';
+import { Center, Loader, Title } from '@mantine/core';
 import InfiniteScrollArea from './InfiniteList';
 import { Bookshelf, Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
@@ -89,9 +89,11 @@ function CarouselCards({ bookshelf }: CarouselProps) {
 
     return (
         <div style={{ marginBottom: '3rem' }}>
-            <Title order={2} ms={10} mb="xs" fw="bold">
-                {bookshelf.name}
-            </Title>
+            <Center>
+                <Title order={2} ms={10} mb="xs" fw="bold">
+                    {bookshelf.name} collection
+                </Title>
+            </Center>
             {loading ? (
                 <Loader size="md" />
             ) : items ? (

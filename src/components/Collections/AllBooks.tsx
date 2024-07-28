@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-import { Loader, Title } from '@mantine/core';
+import { Center, Loader, Title } from '@mantine/core';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
 import InfiniteScrollArea from '@/src/components/CarouselCards/InfiniteList';
@@ -118,9 +118,11 @@ export default function AllBookshelvesPage() {
 
     return (
         <div style={{ marginBottom: '3rem', marginTop: '2rem' }}>
-            <Title order={2} ms={10} mb="xs" fw="bold">
-                All my books
-            </Title>
+            <Center>
+                <Title order={2} ms={10} mb="xs" fw="bold">
+                    All my books
+                </Title>
+            </Center>
             {loading ? (
                 <Loader size="md" />
             ) : books ? (

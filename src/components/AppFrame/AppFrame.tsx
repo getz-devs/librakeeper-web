@@ -52,10 +52,6 @@ async function FetchBookshelf(user: any, shelfName: string) {
 }
 
 export function AppFrame({ children }: AppFrameProps) {
-    const demoProps = {
-        h: 50,
-        mt: 'md',
-    };
     const [inputValue, setInputValue] = useState('');
     const [opened, { open, close }] = useDisclosure(false);
     const { user, loading: userLoading } = useAuthContext();
@@ -114,9 +110,7 @@ export function AppFrame({ children }: AppFrameProps) {
                 </AppShell.Header>
 
                 <AppShell.Main>
-                    <Container size="76rem" {...demoProps}>
-                        {children}
-                    </Container>
+                    <Container my="lg">{children}</Container>
                 </AppShell.Main>
             </AppShell>
         </div>

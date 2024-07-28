@@ -93,7 +93,6 @@ function BookCard({ book, isAdv, index }: BookCardProps) {
                     fullWidth
                     mt="sm"
                     radius="md"
-                    style={{ width: '40%' }}
                     onClick={() => onClickHandler(book, user, isAdv, index)}
                 >
                     Choose this

@@ -9,7 +9,7 @@ export function ErrorCard({ error, desc }: ErrorCardProps) {
     const theme = useMantineTheme();
     return (
         <Center>
-            <Card mb="md" maw={theme.breakpoints.xs}>
+            <Card mb="md" w={theme.breakpoints.sm}>
                 <Title order={3}>{error}</Title>
                 <Divider my="md" />
                 <Text>{desc}</Text>

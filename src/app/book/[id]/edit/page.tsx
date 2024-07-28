@@ -65,8 +65,8 @@ export default function SearchBar() {
 
                 const dataBookshelves: Bookshelf[] | null = await resBookshelves.json();
                 if (dataBookshelves != null) {
-                    console.log('resBookshelves.json() != null');
-                    console.log(resBookshelves.json());
+                    // console.log('resBookshelves.json() != null');
+                    // console.log(resBookshelves.json());
                     setBookshelves(dataBookshelves);
                 }
 
@@ -102,6 +102,7 @@ export default function SearchBar() {
     // Initialize the form with useForm hook
     const form = useForm<BookUpdate>({
         initialValues: {
+            // id: id, - also need to specify the id (TODO: fix the API)
             title: '',
             author: '',
             description: '',
