@@ -1,37 +1,98 @@
-# Mantine Next.js template
+# Librakeeper Web
 
-This is a template for [Next.js](https://nextjs.org/) app router + [Mantine](https://mantine.dev/).
-If you want to use pages router instead, see [next-pages-template](https://github.com/mantinedev/next-pages-template).
+*― A Modern Personal Book Library Frontend*
 
-## Features
+Librakeeper Web is a sleek and user-friendly web application designed for managing your personal book collection. Built with a modern tech stack and intuitive interface, Librakeeper makes organizing and exploring your books a breeze.
 
-This template comes with the following features:
+## Key Features
 
-- [PostCSS](https://postcss.org/) with [mantine-postcss-preset](https://mantine.dev/styles/postcss-preset)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Storybook](https://storybook.js.org/)
-- [Jest](https://jestjs.io/) setup with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
-- ESLint setup with [eslint-config-mantine](https://github.com/mantinedev/eslint-config-mantine)
+- **Effortless Book Adding:** Quickly add books to your library by scanning ISBNs using your phone's camera or manually inputting them.
+- **Detailed Book Information:** View comprehensive details for each book, including title, author, cover image, description, and more.
+- **Customizable Bookshelves:** Create personalized bookshelves to categorize your books based on genre, author, or any criteria you prefer.
+- **Advanced Search:** Utilize our powerful search engine to find books within your library based on various parameters.
+- **Secure Authentication:** Seamlessly log in and manage your library with secure authentication powered by Firebase.
 
-## npm scripts
+## Tech Stack
 
-### Build and dev scripts
+- **Next.js:** A powerful React framework for building fast and SEO-friendly web applications.
+- **Mantine:** A modern React component library providing pre-built components and styling tools for a streamlined development experience.
+- **TypeScript:** A strongly typed superset of JavaScript, ensuring code quality and maintainability.
+- **pnpm:** A fast and efficient package manager for JavaScript.
 
-- `dev` – start dev server
-- `build` – bundle application for production
-- `analyze` – analyzes application bundle with [@next/bundle-analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
+## App Structure
 
-### Testing scripts
+Librakeeper Web is structured around a clear hierarchy of pages, each serving a specific purpose in managing your book collection. 
 
-- `typecheck` – checks TypeScript types
-- `lint` – runs ESLint
-- `prettier:check` – checks files with Prettier
-- `jest` – runs jest tests
-- `jest:watch` – starts jest watch
-- `test` – runs `jest`, `prettier:check`, `lint` and `typecheck` scripts
+- `/`
+    - Displays all books
+    - Displays all collections (bookshelves)
+    - Button to add a new book using the camera
+- `/search`
+    - Search for books using ISBN
+    - Button to go to Advanced Search
+- `/advSearch`
+    - Advanced search for books 
+- `/camera`
+    - Captures ISBN from the camera
+    - Redirects to the search with scanned ISBN
+- `/collections`
+    - Displays all bookshelves
+- `/collections/[id]`
+    - Displays all books for the bookshelf with `id`
+- `/book/[id]`
+    - Displays detailed info about a book with `id`
+    - Contains a button to edit this book
+- `/book/[id]/edit`
+    - Allows editing info about a book with `id`
+- `/debug`
+    - Debug page to test API requests
 
-### Other scripts
+## User Journey
 
-- `storybook` – starts storybook dev server
-- `storybook:build` – build production storybook bundle to `storybook-static`
-- `prettier:write` – formats all files with Prettier
+The following diagram illustrates a typical user journey through the Librakeeper Web application, highlighting how users interact with various features and navigate between pages.
+
+```mermaid
+graph TB
+    Login((Login)) -- Authenticate --> Home(["/"]) 
+    Home -- "View Book Details" --> Book(["/book/[id]"])  
+    Home --> Camera(["/camera"]) 
+    Camera -- "Scan or Enter ISBN" --> Search(["/search"])  
+    Search --> SearchResults(["Search Results"])
+    Search -- "No Books Found" --> AdvSearch(["/advSearch"]) 
+    AdvSearch --> SearchResults
+    SearchResults -- "Save Book" --> Book 
+    Home --> Collections(["/collections"]) 
+    Collections -- "Open Bookshelf" --> Bookshelf(["/collections/[id]"]) 
+    Home -- "View Bookshelf" --> Bookshelf
+    Bookshelf -- "View Book Details" -->  Book
+    Book -- "Edit Information" --> EditBook(["/book/[id]/edit"]) 
+```
+
+## Getting Started
+
+### Prerequisites
+- **Node.js**: [https://nodejs.org/](https://nodejs.org/)
+- **pnpm**: [https://pnpm.io/](https://pnpm.io/)
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/librakeeper-web.git
+cd librakeeper-web
+```
+
+Install Dependencies:
+
+```bash
+pnpm install 
+```
+
+### Start the Development Server
+
+```bash
+pnpm dev
+```
+
+This will start the development server, typically at `http://localhost:3000`.

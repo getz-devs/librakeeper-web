@@ -6,8 +6,8 @@ import { AuthContextProvider } from '@/src/firebase/context';
 import { AppFrame } from '@/src/components/AppFrame/AppFrame';
 
 export const metadata = {
-    title: 'Mantine Next.js template',
-    description: 'I am using Mantine with Next.js!',
+    title: 'LibraKeeper',
+    description: 'A Personal Book Library Management App',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
