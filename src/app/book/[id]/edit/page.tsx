@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from '@mantine/form';
 import { useAuthContext } from '@/src/firebase/context';
 import { Book, Bookshelf, BookUpdate } from '@/src/types/api';
+import { Loading } from '@/src/components/Loading/Loading';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -64,13 +65,12 @@ export default function SearchBar() {
 
                 const dataBookshelves: Bookshelf[] | null = await resBookshelves.json();
                 if (dataBookshelves != null) {
-                    console.log('resBookshelves.json() != null');
-                    console.log(resBookshelves.json());
+                    // console.log('resBookshelves.json() != null');
+                    // console.log(resBookshelves.json());
                     setBookshelves(dataBookshelves);
                 }
 
                 // получаем инфо о полке
-
                 // проверка что айди полки не пустай строка
 
                 if (!data.bookshelf_id) {
@@ -102,6 +102,7 @@ export default function SearchBar() {
     // Initialize the form with useForm hook
     const form = useForm<BookUpdate>({
         initialValues: {
+            // id: id, - also need to specify the id (TODO: fix the API)
             title: '',
             author: '',
             description: '',
@@ -113,8 +114,7 @@ export default function SearchBar() {
     const handleSubmit = async (values: BookUpdate) => {
         // Filter out empty fields
         const nonEmptyFields = Object.fromEntries(
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            Object.entries(values).filter(([_, v]) => v !== '' && v !== undefined)
+            Object.entries(values).filter(([, v]) => v !== '' && v !== undefined)
         );
 
         // If no non-empty fields, do not make the request
@@ -149,7 +149,7 @@ export default function SearchBar() {
 
     // console.log(bookshelves);
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     if (book === null) {
@@ -159,13 +159,10 @@ export default function SearchBar() {
     return (
         <Container size="sm">
             <Card shadow="sm" padding="lg" radius="md" withBorder>
-                {/* <Card.Section> */}
                 <Text fw={700} size="lg">
                     Текущие значения
                 </Text>
                 <Space h="md" />
-                {/* </Card.Section> */}
-                {/* <Card.Section> */}
                 <Grid columns={2}>
                     <Grid.Col span={1}>
                         <Text fw={700} size="lg">
@@ -240,11 +237,6 @@ export default function SearchBar() {
                             placeholder="Enter cover image URL"
                             {...form.getInputProps('cover_image')}
                         />
-                        {/* <TextInput
-                            label="Bookshelf ID"
-                            placeholder="Enter bookshelf ID"
-                            {...form.getInputProps('bookshelf_id')}
-                        /> */}
                         <Select
                             label="Bookshelf"
                             placeholder="Pick a bookshelf"

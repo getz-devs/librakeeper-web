@@ -1,9 +1,7 @@
-/* eslint-disable max-len */
-
 'use client';
 
 import Link from 'next/link';
-import { AppShell, Group, Button, Container, Modal, Input } from '@mantine/core';
+import { AppShell, Group, Button, Container, Modal, Input, Flex } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { ColorSchemeToggle } from '@/src/components/ColorSchemeToggle/ColorSchemeToggle';
@@ -24,14 +22,6 @@ async function FetchBookshelf(user: any, shelfName: string) {
         return;
     }
 
-    // const bookshelf: Bookshelf = {
-    //     name: shelfName,
-    //     id: '',
-    //     user_id: user?.uid || '',
-    //     created_at: '',
-    //     updated_at: '',
-    // };
-
     const bookshelf: Bookshelf = {} as Bookshelf;
     bookshelf.name = shelfName;
     bookshelf.user_id = user.uid;
@@ -41,17 +31,14 @@ async function FetchBookshelf(user: any, shelfName: string) {
     try {
         const token = await user?.getIdToken();
 
-        const res = await fetch(
-            `${API_HOST}/bookshelves/add`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(bookshelf),
-            }
-        );
+        const res = await fetch(`${API_HOST}/bookshelves/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(bookshelf),
+        });
 
         if (!res.ok) {
             throw new Error('Ошибка при добавлении коллекции');
@@ -65,10 +52,6 @@ async function FetchBookshelf(user: any, shelfName: string) {
 }
 
 export function AppFrame({ children }: AppFrameProps) {
-    const demoProps = {
-        h: 50,
-        mt: 'md',
-    };
     const [inputValue, setInputValue] = useState('');
     const [opened, { open, close }] = useDisclosure(false);
     const { user, loading: userLoading } = useAuthContext();
@@ -89,22 +72,14 @@ export function AppFrame({ children }: AppFrameProps) {
             <Modal opened={opened} onClose={close} title="New Collection">
                 <Input placeholder="Name" value={inputValue} onChange={handleInputChange} />
 
-                <Button
-                    size="28"
-                    onClick={handleAddBookshelf}
-                    fz="16"
-                    mt={10}
-                >
+                <Button size="28" onClick={handleAddBookshelf} fz="16" mt={10}>
                     Add
                 </Button>
             </Modal>
 
-            <AppShell
-                header={{ height: 60 }}
-                padding=""
-            >
+            <AppShell header={{ height: 60 }} padding="">
                 <AppShell.Header>
-                    <Container px="0.3rem" size="76rem">
+                    <Container h="100%">
                         <Group h="100%" px="" style={{ justifyContent: 'space-between' }}>
                             <Button
                                 variant="transparent"
@@ -112,24 +87,30 @@ export function AppFrame({ children }: AppFrameProps) {
                                 href="/"
                                 className={classes.customLabel}
                             >
-                                Libra Keeper
+                                <div className="mantine-visible-from-xs">Libra Keeper</div>
+                                <div className="mantine-hidden-from-xs">Libra</div>
                             </Button>
 
-                            <div style={{ marginLeft: 'auto', display: 'flex', gap: '2rem' }}>
-                                <Button onClick={open} className={classes.customButtton}>
-                                    +Bookshelf
+                            <Flex
+                                h="100%"
+                                gap={{ base: 'xs', sm: 'md' }}
+                                justify="flex-end"
+                                align="center"
+                                direction="row"
+                                wrap="wrap"
+                            >
+                                <Button variant="light" onClick={open}>
+                                    Shelf +
                                 </Button>
                                 <GoogleAuthButton />
                                 <ColorSchemeToggle />
-                            </div>
+                            </Flex>
                         </Group>
                     </Container>
                 </AppShell.Header>
 
                 <AppShell.Main>
-                    <Container size="76rem" {...demoProps}>
-                        {children}
-                    </Container>
+                    <Container my="lg">{children}</Container>
                 </AppShell.Main>
             </AppShell>
         </div>

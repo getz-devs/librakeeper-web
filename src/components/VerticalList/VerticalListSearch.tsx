@@ -1,13 +1,12 @@
 'use client';
 
-/* eslint-disable arrow-body-style */
-
 import React, { useEffect, useState } from 'react';
-// import { useSearchParams } from 'next/navigation';
-import { Loader } from '@mantine/core';
+import { Badge, Center, Loader, Space, Title } from '@mantine/core';
 import ListOfCards from './VerticalListForm';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
+import { ErrorCard } from '@/src/components/ErrorCard/ErrorCard';
+import { Loading } from '@/src/components/Loading/Loading';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -16,7 +15,6 @@ const delay = (ms: number | undefined) =>
         setTimeout(resolve, ms);
     });
 
-// eslint-disable-next-line max-len
 export default function VerticalListSearch({
     ISBN,
     isAdv,
@@ -24,10 +22,6 @@ export default function VerticalListSearch({
     ISBN: string | null;
     isAdv?: boolean;
 }) {
-    // const searchParams = useSearchParams();
-    // const bookshelfId = searchParams.get('q');
-    // const { ISBN } = params;
-
     const { user } = useAuthContext();
     const [books, setBooks] = useState<Book[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -82,26 +76,33 @@ export default function VerticalListSearch({
     }, [user, ISBN, API_HOST, searchType]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     if (books === undefined) {
-        return <div>No books found</div>;
+        return <ErrorCard error="No books found" desc="No books found for this query" />;
     }
 
     return (
         <div>
-            <div> Search by ISBN: {ISBN} </div>
+            <Center>
+                <Title order={2}>
+                    Search by ISBN:{' '}
+                    <Badge variant="light" color="gray" size="xl">
+                        {ISBN}
+                    </Badge>
+                </Title>
+            </Center>
+
+            <Space h="lg" />
 
             {loading ? (
                 <Loader size="md" />
             ) : books ? (
                 <ListOfCards isAdv={isAdv} items={books} />
             ) : (
-                <div>No books found</div>
+                <ErrorCard error="No books found" desc="No books found for this query" />
             )}
-
-            {/* <ListOfCards items={books} /> */}
         </div>
     );
 }

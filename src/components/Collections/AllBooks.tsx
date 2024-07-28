@@ -1,17 +1,13 @@
-/* eslint-disable no-async-promise-executor */
-/* eslint-disable no-plusplus */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 'use client';
 
 import { useState, useEffect } from 'react';
 
-import { Card, Stack, Image, Group, Text, Badge, Button, Loader, Title } from '@mantine/core';
-import Link from 'next/link';
+import { Center, Loader, Title } from '@mantine/core';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
-import CarouselCards from '../CarouselCards/CarouselCards';
-import InfiniteScrollArea from '../CarouselCards/InfiniteList';
+import InfiniteScrollArea from '@/src/components/CarouselCards/InfiniteList';
+import { ErrorCard } from '@/src/components/ErrorCard/ErrorCard';
+import { Loading } from '@/src/components/Loading/Loading';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -62,51 +58,71 @@ export default function AllBookshelvesPage() {
         fetchBooks(10);
     }, [user]);
 
-    const fetchMoreData = () =>
-        new Promise<void>(async (resolve) => {
-            if (!hasMore) {
-                resolve();
-                return;
-            }
-            try {
-                const token = await user?.getIdToken();
-                const res = await fetch(`${API_HOST}/books/?page=${page}&limit=10`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                let data: Book[] = await res.json();
-                if (data === null || data.length === 0) {
-                    setHasMore(false);
-                    data = [];
-                    resolve();
-                    return;
-                }
+    const fetchMoreData = (): Promise<void> => {
+        // If there are no more items to fetch, return a resolved promise
+        if (!hasMore) {
+            return Promise.resolve();
+        }
 
-                setBooks((prevItems) => [...prevItems, ...data]);
+        // If the user is not defined, return a resolved promise
+        if (!user) {
+            return Promise.resolve();
+        }
 
-                setPage(page + 1);
-            } catch (error) {
-                console.error('Error fetching more books:', error);
-            }
-            resolve();
-        });
+        // Fetch user token and make an API call
+        return user.getIdToken().then((token) =>
+            fetch(`${API_HOST}/books/?page=${page}&limit=10`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then((res) => {
+                    // Handle response and parse it as JSON
+                    if (!res.ok) {
+                        throw new Error('Failed to fetch books');
+                    }
+                    return res.json();
+                })
+                .then((data: Book[]) => {
+                    // If no data is returned, set hasMore to false
+                    if (!data || data.length === 0) {
+                        setHasMore(false);
+                        return;
+                    }
+
+                    // Update the state with new books
+                    setBooks((prevItems) => [...prevItems, ...data]);
+
+                    // Increment the page number for the next request
+                    setPage((prevPage) => prevPage + 1);
+                })
+                .catch((error) => {
+                    console.error('Error fetching more books:', error);
+                })
+        );
+    };
+
+    if (!userloading && !user) {
+        return <ErrorCard error="User not authorized" desc="Please log in to view your data" />;
+    }
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     if (books === undefined) {
-        return <div>No bookshelves found</div>;
+        return <ErrorCard error="No books found" desc="No books found for this user" />;
     }
 
     return (
         <div style={{ marginBottom: '3rem', marginTop: '2rem' }}>
-            <Title order={2} ms={10} mb="xs" fw="bold">
-                All my books
-            </Title>
+            <Center>
+                <Title order={2} ms={10} mb="xs" fw="bold">
+                    All my books
+                </Title>
+            </Center>
             {loading ? (
                 <Loader size="md" />
             ) : books ? (
@@ -116,7 +132,7 @@ export default function AllBookshelvesPage() {
                     loader={<Loader size="md" />}
                 />
             ) : (
-                <div>No books found</div>
+                <ErrorCard error="No books found" desc="No books found for this user" />
             )}
         </div>
     );

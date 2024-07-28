@@ -1,8 +1,0 @@
-.customButton {
-    width: rem(60px);
-    height: rem(60px);
-    border-radius: var(--mantine-radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}

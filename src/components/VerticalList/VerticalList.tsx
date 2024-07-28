@@ -1,12 +1,10 @@
 'use client';
 
-/* eslint-disable arrow-body-style */
-
 import React, { useEffect, useState } from 'react';
-// import { useSearchParams } from 'next/navigation';
 import ListOfCards from './VerticalListForm';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
+import { Loading } from '@/src/components/Loading/Loading';
 
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || 'http://localhost:8080/api';
 
@@ -15,8 +13,6 @@ interface VerticalListProps {
 }
 
 export default function BooksByBookshelfPage(params: VerticalListProps) {
-    // const searchParams = useSearchParams();
-    // const bookshelfId = searchParams.get('q');
     const { bookshelfId } = params;
 
     const { user } = useAuthContext();
@@ -47,7 +43,7 @@ export default function BooksByBookshelfPage(params: VerticalListProps) {
     }, [user, bookshelfId]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     return (
@@ -57,37 +53,3 @@ export default function BooksByBookshelfPage(params: VerticalListProps) {
         </div>
     );
 }
-
-// const MyComponent: React.FC = () => {
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     const [items, setItems] = useState<Item[]>(generateItems(10));
-
-//     return <ListOfCards items={items} />;
-// };
-
-// interface Item {
-//     id: string;
-//     image: string;
-//     title: string;
-//     text: string;
-// }
-
-// const generateItems = (count: number): Item[] => {
-//     return Array.from({ length: count }, (_, i) => ({
-//         id: `${i + 1}`,
-//         image: 'https://sun9-16.userapi.com/impf/c637718/v637718963/51fd9/nACCl1pDqvM.jpg?size=222x314&quality=96&sign=e71b016beb5daa4c8f7a968c83636cf2&type=album',
-//         title: `SuperJet ${i + 100}`,
-//         text: `This is the text for item ${i + 1}`,
-//     }));
-// };
-
-// const MyComponent: React.FC = () => {
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     const [items, setItems] = useState<Item[]>(generateItems(10));
-
-//     return (
-//         <ListOfCards items={items} />
-//     );
-// };
-
-// export default MyComponent;
