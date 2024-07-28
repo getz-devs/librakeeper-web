@@ -1,8 +1,6 @@
 'use client';
 
-import { Text, Button, Stack, Card, Image, AspectRatio } from '@mantine/core';
-import { useRef } from 'react';
-import classes from './VerticalListForm.module.css';
+import { Text, Button, Stack, Card, Image, AspectRatio, SimpleGrid, Title } from '@mantine/core';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
 
@@ -78,35 +76,28 @@ function BookCard({ book, isAdv, index }: BookCardProps) {
 
     return (
         <Card shadow="sm" padding={0} radius="md" withBorder>
-            <Stack gap={0}>
-                <AspectRatio ratio={4 / 5} maw={300} mx="auto">
-                    <Image
-                        src={book.cover_image}
-                        fallbackSrc="https://placehold.co/400x500?text=No%20cover"
-                    />
-                </AspectRatio>
+            <AspectRatio ratio={4 / 5}>
+                <Image
+                    src={book.cover_image}
+                    fallbackSrc="https://placehold.co/400x500?text=No%20cover"
+                />
+            </AspectRatio>
+            <Stack gap="sm" p="md">
+                <Title order={3}>{book.title}</Title>
+                <Text size="sm" c="dimmed">
+                    {book.author}
+                </Text>
 
-                <Stack px="md" h="100%">
-                    <Text fw={500}>{book.title}</Text>
-                    <Text size="sm" c="dimmed">
-                        {book.description}
-                    </Text>
-
-                    <Stack align="end">
-                        <Button
-                            color="blue"
-                            fullWidth
-                            mt="md"
-                            radius="md"
-                            // component={Link}
-                            // href={{ pathname: '/' }}
-                            style={{ width: '40%' }}
-                            onClick={() => onClickHandler(book, user, isAdv, index)}
-                        >
-                            Choose this
-                        </Button>
-                    </Stack>
-                </Stack>
+                <Button
+                    color="blue"
+                    fullWidth
+                    mt="sm"
+                    radius="md"
+                    style={{ width: '40%' }}
+                    onClick={() => onClickHandler(book, user, isAdv, index)}
+                >
+                    Choose this
+                </Button>
             </Stack>
         </Card>
     );
@@ -118,14 +109,11 @@ interface ListProps {
 }
 
 const ListOfCards: React.FC<ListProps> = ({ items, isAdv }) => {
-    const viewport = useRef<HTMLDivElement>(null);
-    return (
-        <div ref={viewport} className={classes.list}>
-            {items.map((item, i) => (
-                <BookCard key={`${item.id}-${i}`} book={item} isAdv={isAdv} index={i} />
-            ))}
-        </div>
-    );
+    const cards = items.map((item, i) => (
+        <BookCard key={`${item.id}-${i}`} book={item} isAdv={isAdv} index={i} />
+    ));
+
+    return <SimpleGrid cols={{ base: 1, xs: 2, sm: 3, md: 4 }}>{cards}</SimpleGrid>;
 };
 
 export default ListOfCards;

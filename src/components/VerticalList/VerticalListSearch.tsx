@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Badge, Center, Loader, Title } from '@mantine/core';
+import { Badge, Center, Loader, Space, Title } from '@mantine/core';
 import ListOfCards from './VerticalListForm';
 import { Book } from '@/src/types/api';
 import { useAuthContext } from '@/src/firebase/context';
@@ -93,6 +93,8 @@ export default function VerticalListSearch({
                     </Badge>
                 </Title>
             </Center>
+
+            <Space h="lg" />
 
             {loading ? (
                 <Loader size="md" />
